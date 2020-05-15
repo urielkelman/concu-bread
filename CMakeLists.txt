@@ -7,6 +7,7 @@ include_directories(concurrencia/fifos)
 include_directories(concurrencia/memoria)
 include_directories(concurrencia/pipes)
 include_directories(concurrencia/seniales)
+include_directories(config)
 include_directories(logging)
 
 add_executable(concu_bread
@@ -23,8 +24,8 @@ add_executable(concu_bread
         concurrencia/seniales/SIGINT_handler.h
         concurrencia/seniales/SignalHandler.cpp
         concurrencia/seniales/SignalHandler.h
-        logging/Config.cpp
-        logging/Config.h
+        config/Config.cpp
+        config/Config.h
         logging/Logging.cpp
         logging/Logging.h
         main.cpp)

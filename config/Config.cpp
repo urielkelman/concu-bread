@@ -4,6 +4,9 @@
 
 #include "Config.h"
 
+Config::Config() {
+}
+
 void Config::configurarMaestrosPizzeros(int maestrosPizzeros) {
     this->maestrosPizzeros = maestrosPizzeros;
 }
