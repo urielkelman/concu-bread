@@ -1,6 +1,30 @@
 cmake_minimum_required(VERSION 3.16)
 project(concu_bread)
 
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 14)
 
-add_executable(concu_bread main.cpp concurrencia/MemoriaCompartida.h)
+include_directories(concurrencia/fifos)
+include_directories(concurrencia/memoria)
+include_directories(concurrencia/pipes)
+include_directories(concurrencia/seniales)
+include_directories(logging)
+
+add_executable(concu_bread
+        concurrencia/fifos/Fifo.cpp
+        concurrencia/fifos/Fifo.h
+        concurrencia/fifos/FifoEscritura.cpp
+        concurrencia/fifos/FifoEscritura.h
+        concurrencia/fifos/FifoLectura.cpp
+        concurrencia/fifos/FifoLectura.h
+        concurrencia/memoria/MemoriaCompartida.h
+        concurrencia/pipes/Pipe.cpp
+        concurrencia/pipes/Pipe.h
+        concurrencia/seniales/EventHandler.h
+        concurrencia/seniales/SIGINT_handler.h
+        concurrencia/seniales/SignalHandler.cpp
+        concurrencia/seniales/SignalHandler.h
+        logging/Config.cpp
+        logging/Config.h
+        logging/Logging.cpp
+        logging/Logging.h
+        main.cpp)
