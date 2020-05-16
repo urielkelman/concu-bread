@@ -9,6 +9,7 @@ include_directories(concurrencia/pipes)
 include_directories(concurrencia/seniales)
 include_directories(config)
 include_directories(logging)
+include_directories(panaderia)
 
 add_executable(concu_bread
         concurrencia/fifos/Fifo.cpp
@@ -28,4 +29,10 @@ add_executable(concu_bread
         config/Config.h
         logging/Logging.cpp
         logging/Logging.h
+        panaderia/Empleado.cpp
+        panaderia/Empleado.h
+        panaderia/Panaderia.cpp
+        panaderia/Panaderia.h
+        panaderia/Recepcionista.cpp
+        panaderia/Recepcionista.h
         main.cpp)

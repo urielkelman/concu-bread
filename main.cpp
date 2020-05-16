@@ -2,11 +2,13 @@
 #include "config/Config.h"
 #include "logging/Logging.h"
 #include "concurrencia/pipes/Pipe.h"
+#include "panaderia/Panaderia.h"
+#include <string.h>
 
 using namespace std;
 
 const string RUTA_DE_LOGEO = "log.txt";
-const string DESCRIPCION_DE_USO = "Uso: ./concubread --m $MAESTROS_PANADEROS --n $MAESTROS_PIZZEROS --r $RECEPCIONISTAS "
+const string DESCRIPCION_DE_USO = "Uso: ./concubread -m $MAESTROS_PANADEROS -n $MAESTROS_PIZZEROS -r $RECEPCIONISTAS "
                                   "-l $NIVEL_DE_LOG";
 
 int determinarCantidadDeParametros(char* argv[]) {
@@ -17,18 +19,27 @@ int determinarCantidadDeParametros(char* argv[]) {
 
 Config popularParametros(char *argv[]){
     Config config;
-    int i = 1;
-    if(argv[1] != "--m" || argv[3] != "--n" || argv[5] != "--r" || argv[7] != "l") {
+    if(strcmp(argv[1], "-m") !=0 || strcmp(argv[3], "-n") != 0 ||
+        strcmp(argv[5], "-r") !=0 || strcmp(argv[7], "-l") != 0) {
         config.configurarCorrectitud(false);
         return config;
     } else {
-
+        try {
+            config.configurarMaestrosPanaderos(stoi(argv[2]));
+            config.configurarMaestrosPizzeros(stoi(argv[4]));
+            config.configurarRecepcionistas(stoi(argv[6]));
+            config.configurarCorrectitud(true);
+            config.configurarNivelDeLogging(argv[8]);
+        } catch (const invalid_argument &e) {
+            cout << e.what() << "\n";
+            config.configurarCorrectitud(false);
+        }
+        return config;
     }
 }
 
 int main(int argc, char *argv[]) {
     int cantidadDeParametros = determinarCantidadDeParametros(argv);
-    cout << cantidadDeParametros;
     if(cantidadDeParametros < 8) {
         cout << DESCRIPCION_DE_USO << "\n";
         return 0;
@@ -38,13 +49,12 @@ int main(int argc, char *argv[]) {
             cout << DESCRIPCION_DE_USO << "\n";
             return 0;
         } else {
-
+            Logging::Inicializar(RUTA_DE_LOGEO, config.obtenerNivelDeLogging());
+            LOG_INFO("Configuracion correctamente introducida.");
+            Panaderia panaderia(config);
+            panaderia.comenzarSimulacion();
         }
     }
-
-    Logging::Inicializar(RUTA_DE_LOGEO, INFO);
-
-    // LOG_DEBUG("Mensaje de prueba de logeo");
 
     Logging::Finalizar();
 

@@ -1,0 +1,30 @@
+[DEBUG] Logging.cpp:32      00:16:38 | Inicializando log.
+[DEBUG] main.cpp:53         00:16:38 | Configuracion correctamente introducida.
+[DEBUG] Panaderia.cpp:10    00:16:38 | Inicializando panaderia. Mi id de proceso es: 8782
+[DEBUG] Panaderia.cpp:20    00:16:38 | Esperando para comenzar simulacion..
+[DEBUG] Empleado.cpp:1000:16:38 | Registrando recepcionista numero: 1. Mi id de proceso es: 8783, y el de mi padre: 8782
+[DEBUG] Empleado.cpp:1800:16:38 | Esperando por pedidos. Id: 8782
+[DEBUG] Empleado.cpp:1000:16:38 | Registrando recepcionista numero: 2. Mi id de proceso es: 8784, y el de mi padre: 8782
+[DEBUG] Empleado.cpp:1800:16:38 | Esperando por pedidos. Id: 8782
+[DEBUG] Empleado.cpp:1000:16:38 | Registrando recepcionista numero: 3. Mi id de proceso es: 8785, y el de mi padre: 8782
+[DEBUG] Empleado.cpp:1800:16:38 | Esperando por pedidos. Id: 8782
+[DEBUG] Panaderia.cpp:20    00:16:48 | Esperando para comenzar simulacion..
+[DEBUG] Empleado.cpp:1800:16:48 | Esperando por pedidos. Id: 8782
+[DEBUG] Empleado.cpp:1800:16:48 | Esperando por pedidos. Id: 8782
+[DEBUG] Empleado.cpp:1800:16:48 | Esperando por pedidos. Id: 8782
+[DEBUG] Panaderia.cpp:20    00:16:58 | Esperando para comenzar simulacion..
+[DEBUG] Empleado.cpp:1800:16:58 | Esperando por pedidos. Id: 8782
+[DEBUG] Empleado.cpp:1800:16:58 | Esperando por pedidos. Id: 8782
+[DEBUG] Empleado.cpp:1800:16:58 | Esperando por pedidos. Id: 8782
+[DEBUG] Panaderia.cpp:20    00:17:08 | Esperando para comenzar simulacion..
+[DEBUG] Empleado.cpp:1800:17:08 | Esperando por pedidos. Id: 8782
+[DEBUG] Empleado.cpp:1800:17:08 | Esperando por pedidos. Id: 8782
+[DEBUG] Empleado.cpp:1800:17:08 | Esperando por pedidos. Id: 8782
+[DEBUG] Panaderia.cpp:20    00:17:18 | Esperando para comenzar simulacion..
+[DEBUG] Empleado.cpp:1800:17:18 | Esperando por pedidos. Id: 8782
+[DEBUG] Empleado.cpp:1800:17:18 | Esperando por pedidos. Id: 8782
+[DEBUG] Empleado.cpp:1800:17:18 | Esperando por pedidos. Id: 8782
+[DEBUG] Panaderia.cpp:20    00:17:28 | Esperando para comenzar simulacion..
+[DEBUG] Empleado.cpp:1800:17:28 | Esperando por pedidos. Id: 8782
+[DEBUG] Empleado.cpp:1800:17:28 | Esperando por pedidos. Id: 8782
+[DEBUG] Empleado.cpp:1800:17:28 | Esperando por pedidos. Id: 8782

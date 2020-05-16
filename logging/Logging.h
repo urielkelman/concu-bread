@@ -7,6 +7,7 @@
 
 #include <string>
 #include <vector>
+#include <map>
 
 using namespace std;
 
@@ -18,6 +19,8 @@ enum NivelDeLogging {INFO = 0, DEBUG = 1};
 class Logging {
 
 public:
+    static NivelDeLogging ObtenerNivelDeLogging(string nivelDeLog);
+
     static void Inicializar(const string& ruta, NivelDeLogging nivelDeLogging);
 
     static void Loggear(NivelDeLogging nivelDeLogging, string mensaje, string archivo, long linea);
@@ -30,8 +33,11 @@ private:
     static vector<string> nivelLogStrings;
     static string obtenerTiempo();
     static string obtenerNombreArchivo(string);
+    static map<string, NivelDeLogging> cadenaANivel;
+    static int numeroMagicoDePadding;
 
     Logging();
+    ~Logging();
 };
 
 
