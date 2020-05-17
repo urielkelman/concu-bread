@@ -9,16 +9,24 @@
 #include "../config/Config.h"
 #include "Empleado.h"
 
+enum TipoDePedido {PAN = 0, PIZZA = 1};
+
+struct Pedido {
+    TipoDePedido tipoDePedido;
+    int numeroDePedido;
+};
+
 class Panaderia {
 public:
     Panaderia(Config config);
     ~Panaderia();
 
-    void comenzarSimulacion();
+    void comenzarSimulacion(int cantidadDePedidos);
 
 private:
-    void generarEntidad(Empleado *empleado, int cantidad, Pipe primerPipe, Pipe segundoPipe, Pipe tercerPipe);
     Pipe canalConRecepcionistas;
+    void generarEntidad(Empleado *empleado, int cantidad, Pipe primerPipe, Pipe segundoPipe, Pipe tercerPipe);
+    TipoDePedido generarPedidoAleatoriamente();
 };
 
 

@@ -31,10 +31,24 @@ Panaderia::~Panaderia() {
 
 }
 
-void Panaderia::comenzarSimulacion() {
-    while(true){
-        LOG_DEBUG("Esperando para comenzar simulacion..");
-        sleep(10);
+TipoDePedido Panaderia::generarPedidoAleatoriamente(){
+    srand(time(NULL));
+    int numeroRandom = rand() % 10 + 1;
+    if(numeroRandom > 5){
+        return PAN;
+    } else {
+        return PIZZA;
+    }
+}
+
+void Panaderia::comenzarSimulacion(int cantidadDePedidos) {
+    for(int i = 1; i <= cantidadDePedidos; i++){
+        Pedido pedido;
+        TipoDePedido tipoDePedido = this->generarPedidoAleatoriamente();
+        pedido.tipoDePedido = tipoDePedido;
+        pedido.numeroDePedido = i;
+        LOG_DEBUG("Despositando pedido con id: " + to_string(i) + ". El pedido es de: " + to_string(tipoDePedido));
+        this->canalConRecepcionistas.escribir(static_cast<const void*>(&pedido), sizeof(Pedido));
     }
 }
 
