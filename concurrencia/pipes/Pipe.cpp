@@ -4,7 +4,7 @@
 
 #include "Pipe.h"
 
-Pipe :: Pipe() : lectura(true), escritura(true) {
+Pipe::Pipe() : lectura(true), escritura(true) {
     pipe ( this->descriptores );
     /*fcntl ( this->descriptors[0],F_SETFL,O_NONBLOCK );
     fcntl ( this->descriptors[1],F_SETFL,O_NONBLOCK );*/
@@ -24,13 +24,13 @@ void Pipe :: setearModo ( const int modo ) {
     }
 }
 
-ssize_t Pipe :: escribir ( const void* dato,int datoSize ) {
-    if ( this->lectura == true ) {
-        close ( this->descriptores[0] );
+ssize_t Pipe::escribir (const void* dato, int datoSize) {
+    if (this->lectura == true) {
+        close(this->descriptores[0]);
         this->lectura = false;
     }
 
-    return write ( this->descriptores[1],dato,datoSize );
+    return write(this->descriptores[1], dato, datoSize);
 }
 
 ssize_t Pipe :: leer ( void* buffer,const int buffSize ) {

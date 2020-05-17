@@ -2,18 +2,19 @@
 // Created by urielkelman on 14/5/20.
 //
 
-#include <fstream>
 #include "Logging.h"
 #include <sys/time.h>
 #include <ctime>
 #include <sstream>
+#include <iostream>
 
 using namespace std;
 
 NivelDeLogging Logging::nivelDeLogging;
-ofstream Logging::file;
 vector<string> Logging::nivelLogStrings = {"INFO", "DEBUG"};
 int Logging::numeroMagicoDePadding = 22;
+string Logging::ruta = "log.txt";
+LockFile Logging::lock = LockFile(Logging::ruta);
 
 NivelDeLogging Logging::ObtenerNivelDeLogging(string nivelDeLog) {
     if(nivelLogStrings[INFO] == nivelDeLog){
@@ -25,10 +26,8 @@ NivelDeLogging Logging::ObtenerNivelDeLogging(string nivelDeLog) {
     }
 }
 
-void Logging::Inicializar(const string& ruta, NivelDeLogging _nivelDeLogging) {
-    file.open(ruta);
+void Logging::Inicializar(NivelDeLogging _nivelDeLogging) {
     nivelDeLogging = _nivelDeLogging;
-
     LOG_INFO("Inicializando log.");
 }
 
@@ -45,8 +44,11 @@ void Logging::Loggear(NivelDeLogging _nivelDeLogging, string mensaje, string pat
         linea << time << " | ";
         linea << mensaje << "\n";
         string l = linea.str();
-        file << l;
-        file.flush();
+        const char* w = l.c_str();
+        lock.tomarLock();
+        lock.escribir(w, l.length());
+        cout << l;
+        lock.liberarLock();
     }
 }
 
@@ -63,7 +65,6 @@ string Logging::obtenerTiempo() {
 
 void Logging::Finalizar() {
     LOG_INFO("Cerrando archivo de log.");
-    file.close();
 }
 
 string Logging::obtenerNombreArchivo(string rutaArchivo) {

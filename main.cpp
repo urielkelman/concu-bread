@@ -7,7 +7,6 @@
 
 using namespace std;
 
-const string RUTA_DE_LOGEO = "log.txt";
 const string DESCRIPCION_DE_USO = "Uso: ./concubread -m $MAESTROS_PANADEROS -n $MAESTROS_PIZZEROS -r $RECEPCIONISTAS "
                                   "-l $NIVEL_DE_LOG";
 
@@ -49,7 +48,7 @@ int main(int argc, char *argv[]) {
             cout << DESCRIPCION_DE_USO << "\n";
             return 0;
         } else {
-            Logging::Inicializar(RUTA_DE_LOGEO, config.obtenerNivelDeLogging());
+            Logging::Inicializar(config.obtenerNivelDeLogging());
             LOG_INFO("Configuracion correctamente introducida.");
             Panaderia panaderia(config);
             panaderia.comenzarSimulacion();

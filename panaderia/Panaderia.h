@@ -5,6 +5,7 @@
 #ifndef CONCU_BREAD_PANADERIA_H
 #define CONCU_BREAD_PANADERIA_H
 
+#include "../concurrencia/pipes/Pipe.h"
 #include "../config/Config.h"
 #include "Empleado.h"
 
@@ -16,7 +17,8 @@ public:
     void comenzarSimulacion();
 
 private:
-    void generarEntidad(Empleado *empleado, int cantidad);
+    void generarEntidad(Empleado *empleado, int cantidad, Pipe primerPipe, Pipe segundoPipe, Pipe tercerPipe);
+    Pipe canalConRecepcionistas;
 };
 
 

@@ -11,11 +11,17 @@ Recepcionista::Recepcionista() {
 
 void Recepcionista::esperarPorSolicitudes() {
     while(true){
-        LOG_DEBUG("Esperando por pedidos. Id: " + to_string(getpid()));
+        LOG_DEBUG("Recepcionista esperando por pedidos. Id: " + to_string(getpid()));
         sleep(10);
     }
 }
 
 Recepcionista::~Recepcionista() {
 
+}
+
+void Recepcionista::configurarPipes(Pipe primerPipe, Pipe segundoPipe, Pipe tercerPipe) {
+    this->comunicacionConPanaderia = primerPipe;
+    this->comunicacionConMaestrosPanaderos = segundoPipe;
+    this->comunicacionConMaestrosPizzeros = tercerPipe;
 }

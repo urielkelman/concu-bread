@@ -8,6 +8,7 @@
 #include <string>
 #include <vector>
 #include <map>
+#include "../concurrencia/locks/LockFile.h"
 
 using namespace std;
 
@@ -21,7 +22,7 @@ class Logging {
 public:
     static NivelDeLogging ObtenerNivelDeLogging(string nivelDeLog);
 
-    static void Inicializar(const string& ruta, NivelDeLogging nivelDeLogging);
+    static void Inicializar(NivelDeLogging nivelDeLogging);
 
     static void Loggear(NivelDeLogging nivelDeLogging, string mensaje, string archivo, long linea);
 
@@ -29,12 +30,12 @@ public:
 
 private:
     static NivelDeLogging nivelDeLogging;
-    static ofstream file;
     static vector<string> nivelLogStrings;
     static string obtenerTiempo();
     static string obtenerNombreArchivo(string);
-    static map<string, NivelDeLogging> cadenaANivel;
     static int numeroMagicoDePadding;
+    static LockFile lock;
+    static string ruta;
 
     Logging();
     ~Logging();

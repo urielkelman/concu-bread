@@ -22,10 +22,10 @@ public:
     Pipe();
     ~Pipe();
 
-    void setearModo ( const int modo );
+    void setearModo (const int modo );
 
-    ssize_t escribir ( const void* dato,const int datoSize );
-    ssize_t leer ( void* buffer,const int buffSize );
+    ssize_t escribir(const void* dato, const int datoSize);
+    ssize_t leer(void* buffer, const int buffSize);
 
     int getFdLectura () const;
     int getFdEscritura () const;

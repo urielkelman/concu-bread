@@ -7,14 +7,19 @@
 
 
 #include "Empleado.h"
+#include "../concurrencia/pipes/Pipe.h"
 
 class Recepcionista : public Empleado {
 public:
     Recepcionista();
     ~Recepcionista();
+    void configurarPipes(Pipe primerPipe, Pipe segundoPipe, Pipe tercerPipe) override;
+    void esperarPorSolicitudes() override;
 
 private:
-    void esperarPorSolicitudes() override;
+    Pipe comunicacionConPanaderia;
+    Pipe comunicacionConMaestrosPanaderos;
+    Pipe comunicacionConMaestrosPizzeros;
 };
 
 
