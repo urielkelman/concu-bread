@@ -9,6 +9,8 @@
 #include "MaestroPanadero.h"
 #include "Maestro.h"
 
+vector<string> Panaderia::TIPO_A_CADENA = {"PAN", "PIZZA"};
+
 Panaderia::Panaderia(Config config) {
     LOG_DEBUG("Inicializando panaderia. Mi id de proceso es: " + to_string(getpid()));
     this->canalConRecepcionistas = Pipe();
@@ -47,8 +49,13 @@ void Panaderia::comenzarSimulacion(int cantidadDePedidos) {
         TipoDePedido tipoDePedido = this->generarPedidoAleatoriamente();
         pedido.tipoDePedido = tipoDePedido;
         pedido.numeroDePedido = i;
-        LOG_DEBUG("Despositando pedido con id: " + to_string(i) + ". El pedido es de: " + to_string(tipoDePedido));
+        LOG_DEBUG("Depositando pedido con id: " + to_string(i) + ". El pedido es de: " + to_string(tipoDePedido));
         this->canalConRecepcionistas.escribir(static_cast<const void*>(&pedido), sizeof(Pedido));
+    }
+
+    while(true){
+        LOG_DEBUG("Esperando para terminar...");
+        sleep(5);
     }
 }
 

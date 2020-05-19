@@ -20,6 +20,7 @@ private:
     Pipe comunicacionConPanaderia;
     Pipe comunicacionConMaestrosPanaderos;
     Pipe comunicacionConMaestrosPizzeros;
+    LockFile lockComunicacionConPanaderia;
 };
 
 

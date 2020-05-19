@@ -23,6 +23,8 @@ public:
 
     void comenzarSimulacion(int cantidadDePedidos);
 
+    static vector<string> TIPO_A_CADENA;
+
 private:
     Pipe canalConRecepcionistas;
     void generarEntidad(Empleado *empleado, int cantidad, Pipe primerPipe, Pipe segundoPipe, Pipe tercerPipe);

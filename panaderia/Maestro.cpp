@@ -10,7 +10,7 @@ Maestro::Maestro() {
 
 void Maestro::esperarPorSolicitudes() {
     while(true){
-        LOG_DEBUG("Maestro pizzero esperando por pedidos. Id: " + to_string(getpid()));
+        LOG_DEBUG( this->cadenaIdentificadora + " esperando por pedidos. Id: " + to_string(getpid()));
         sleep(10);
     }
 }
