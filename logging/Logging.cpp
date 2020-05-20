@@ -13,7 +13,7 @@ using namespace std;
 NivelDeLogging Logging::nivelDeLogging;
 vector<string> Logging::nivelLogStrings = {"INFO", "DEBUG"};
 int Logging::numeroMagicoDePadding = 22;
-string Logging::ruta = "log.txt";
+string Logging::ruta = "log8.txt";
 LockFile Logging::lock = LockFile(Logging::ruta);
 
 NivelDeLogging Logging::ObtenerNivelDeLogging(string nivelDeLog) {

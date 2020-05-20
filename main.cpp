@@ -52,6 +52,7 @@ int main(int argc, char *argv[]) {
             LOG_INFO("Configuracion correctamente introducida.");
             Panaderia panaderia(config);
             panaderia.comenzarSimulacion(3);
+            LOG_INFO("Simulacion terminada.  " + to_string(getpid()));
         }
     }
 

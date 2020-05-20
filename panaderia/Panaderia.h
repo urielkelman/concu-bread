@@ -9,10 +9,12 @@
 #include "../config/Config.h"
 #include "Empleado.h"
 
-enum TipoDePedido {PAN = 0, PIZZA = 1};
+enum ContenidoDePedido {LLENO = 0, VACIO = 1};
+enum TipoDePedido {PAN = 0, PIZZA = 1, NOTIFICACION_DE_CIERRE = 2};
 
 struct Pedido {
     TipoDePedido tipoDePedido;
+    ContenidoDePedido contenidoDePedido;
     int numeroDePedido;
 };
 
@@ -24,11 +26,16 @@ public:
     void comenzarSimulacion(int cantidadDePedidos);
 
     static vector<string> TIPO_A_CADENA;
+    static vector<string> CONTENIDO_A_CADENA;
 
 private:
+    Config config;
     Pipe canalConRecepcionistas;
+
     void generarEntidad(Empleado *empleado, int cantidad, Pipe primerPipe, Pipe segundoPipe, Pipe tercerPipe);
     TipoDePedido generarPedidoAleatoriamente();
+    void notificarFinalizacion();
+    void enviarPedidosVacios(TipoDePedido tipoDePedido, int cantidadDePedidos);
 };
 
 

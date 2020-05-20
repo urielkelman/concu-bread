@@ -8,6 +8,7 @@
 
 #include "Empleado.h"
 #include "../concurrencia/pipes/Pipe.h"
+#include "Panaderia.h"
 
 class Recepcionista : public Empleado {
 public:
@@ -21,6 +22,7 @@ private:
     Pipe comunicacionConMaestrosPanaderos;
     Pipe comunicacionConMaestrosPizzeros;
     LockFile lockComunicacionConPanaderia;
+    void entregarPedidoAMaestro(Pedido pedido);
 };
 
 

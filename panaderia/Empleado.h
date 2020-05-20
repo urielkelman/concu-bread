@@ -22,6 +22,7 @@ public:
 protected:
     int numeroDeEmpleado;
     string cadenaIdentificadora;
+    bool continuarAtendiendoPedidos = true;
 };
 
 

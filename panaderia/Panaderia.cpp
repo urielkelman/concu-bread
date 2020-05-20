@@ -9,10 +9,12 @@
 #include "MaestroPanadero.h"
 #include "Maestro.h"
 
-vector<string> Panaderia::TIPO_A_CADENA = {"PAN", "PIZZA"};
+vector<string> Panaderia::TIPO_A_CADENA = {"PAN", "PIZZA", "NOTIFICACION_DE_CIERRE"};
+vector<string> Panaderia::CONTENIDO_A_CADENA = {"LLENO", "VACIO"};
 
 Panaderia::Panaderia(Config config) {
     LOG_DEBUG("Inicializando panaderia. Mi id de proceso es: " + to_string(getpid()));
+    this->config = config;
     this->canalConRecepcionistas = Pipe();
     Pipe canalRecepcionistasMaestroPanadero;
     Pipe canalRecepcionistaMaestroPizzero;
@@ -30,33 +32,7 @@ Panaderia::Panaderia(Config config) {
 }
 
 Panaderia::~Panaderia() {
-
-}
-
-TipoDePedido Panaderia::generarPedidoAleatoriamente(){
-    srand(time(NULL));
-    int numeroRandom = rand() % 10 + 1;
-    if(numeroRandom > 5){
-        return PAN;
-    } else {
-        return PIZZA;
-    }
-}
-
-void Panaderia::comenzarSimulacion(int cantidadDePedidos) {
-    for(int i = 1; i <= cantidadDePedidos; i++){
-        Pedido pedido;
-        TipoDePedido tipoDePedido = this->generarPedidoAleatoriamente();
-        pedido.tipoDePedido = tipoDePedido;
-        pedido.numeroDePedido = i;
-        LOG_DEBUG("Depositando pedido con id: " + to_string(i) + ". El pedido es de: " + to_string(tipoDePedido));
-        this->canalConRecepcionistas.escribir(static_cast<const void*>(&pedido), sizeof(Pedido));
-    }
-
-    while(true){
-        LOG_DEBUG("Esperando para terminar...");
-        sleep(5);
-    }
+    exit(0);
 }
 
 void Panaderia::generarEntidad(Empleado *empleado, int cantidad, Pipe primerPipe, Pipe segundoPipe, Pipe tercerPipe) {
@@ -69,3 +45,52 @@ void Panaderia::generarEntidad(Empleado *empleado, int cantidad, Pipe primerPipe
         }
     }
 }
+
+TipoDePedido Panaderia::generarPedidoAleatoriamente(){
+    srand(time(NULL));
+    int numeroRandom = rand() % 10 + 1;
+    if(numeroRandom > 5){
+        return PAN;
+    } else {
+        return PIZZA;
+    }
+}
+
+void Panaderia::enviarPedidosVacios(TipoDePedido tipoDePedido, int cantidadDePedidos) {
+    for(int i = 1; i <= cantidadDePedidos; i++){
+        Pedido pedido;
+        pedido.tipoDePedido = tipoDePedido;
+        pedido.contenidoDePedido = VACIO;
+        pedido.numeroDePedido = -i;
+        LOG_DEBUG("Enviando notificacion" + to_string(i) + "de finalizacion de pedidos de " + TIPO_A_CADENA[tipoDePedido] + " a recepcionistas.");
+        this->canalConRecepcionistas.escribir(static_cast<const void*>(&pedido), sizeof(Pedido));
+    }
+}
+
+void Panaderia::notificarFinalizacion() {
+    this->enviarPedidosVacios(PAN, this->config.obtenerMaestrosPanaderos());
+    this->enviarPedidosVacios(PIZZA, this->config.obtenerMaestrosPizzeros());
+    for(int i = 1; i <= this->config.obtenerRecepcionistas(); i++){
+        Pedido pedido;
+        pedido.tipoDePedido = NOTIFICACION_DE_CIERRE;
+        LOG_DEBUG("Enviando notificacion " + to_string(i) + " de cierre de panaderia.");
+        this->canalConRecepcionistas.escribir(static_cast<const void*>(&pedido), sizeof(Pedido));
+    }
+}
+
+void Panaderia::comenzarSimulacion(int cantidadDePedidos) {
+    for(int i = 1; i <= cantidadDePedidos; i++){
+        Pedido pedido;
+        TipoDePedido tipoDePedido = this->generarPedidoAleatoriamente();
+        pedido.tipoDePedido = tipoDePedido;
+        pedido.numeroDePedido = i;
+        pedido.contenidoDePedido = LLENO;
+        LOG_DEBUG("Depositando pedido con id: " + to_string(i) + ". El pedido es de: " + TIPO_A_CADENA[tipoDePedido]);
+        this->canalConRecepcionistas.escribir(static_cast<const void*>(&pedido), sizeof(Pedido));
+    }
+
+    this->notificarFinalizacion();
+}
+
+
+
