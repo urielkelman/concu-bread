@@ -11,7 +11,8 @@ class MaestroPanadero : public Maestro {
 public:
     MaestroPanadero();
     ~MaestroPanadero();
-
+private:
+    void cocinar() override;
 };
 
 

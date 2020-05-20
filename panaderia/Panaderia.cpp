@@ -7,7 +7,7 @@
 #include "Empleado.h"
 #include "Recepcionista.h"
 #include "MaestroPanadero.h"
-#include "Maestro.h"
+#include "MaestroPizzero.h"
 
 vector<string> Panaderia::TIPO_A_CADENA = {"PAN", "PIZZA", "NOTIFICACION_DE_CIERRE"};
 vector<string> Panaderia::CONTENIDO_A_CADENA = {"LLENO", "VACIO"};
@@ -26,13 +26,12 @@ Panaderia::Panaderia(Config config) {
     MaestroPanadero maestroPanadero;
     this->generarEntidad(&maestroPanadero, config.obtenerMaestrosPanaderos(), canalRecepcionistasMaestroPanadero,
             canalMaestroAMaestroMasaMadre, canalMaestroMasaMadreAMaestro);
-    Maestro maestroPizzero;
+    MaestroPizzero maestroPizzero;
     this->generarEntidad(&maestroPizzero, config.obtenerMaestrosPizzeros(), canalRecepcionistaMaestroPizzero,
             canalMaestroAMaestroMasaMadre, canalMaestroMasaMadreAMaestro);
 }
 
 Panaderia::~Panaderia() {
-    exit(0);
 }
 
 void Panaderia::generarEntidad(Empleado *empleado, int cantidad, Pipe primerPipe, Pipe segundoPipe, Pipe tercerPipe) {

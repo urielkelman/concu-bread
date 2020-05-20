@@ -8,8 +8,12 @@
 #include "Maestro.h"
 
 class MaestroPizzero : public Maestro{
+public:
     MaestroPizzero();
     ~MaestroPizzero();
+
+private:
+    void cocinar() override;
 };
 
 

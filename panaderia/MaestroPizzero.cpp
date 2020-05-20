@@ -4,10 +4,14 @@
 
 #include "MaestroPizzero.h"
 
-MaestroPizzero::MaestroPizzero() {
+MaestroPizzero::MaestroPizzero() : Maestro("maestroPizzero.lock") {
     this->cadenaIdentificadora = "maestro pizzero";
 }
 
 MaestroPizzero::~MaestroPizzero() {
+
+}
+
+void MaestroPizzero::cocinar() {
 
 }

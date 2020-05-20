@@ -4,11 +4,15 @@
 
 #include "MaestroPanadero.h"
 
-MaestroPanadero::MaestroPanadero() {
+MaestroPanadero::MaestroPanadero() : Maestro("maestroPanadero.lock"){
     this->cadenaIdentificadora = "maestro panadero";
 }
 
 MaestroPanadero::~MaestroPanadero() {
+
+}
+
+void MaestroPanadero::cocinar() {
 
 }
 
