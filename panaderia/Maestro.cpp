@@ -6,7 +6,10 @@
 #include "Panaderia.h"
 
 Maestro::Maestro(string nombreLockComunicacionConRecepcionistas) :
-        lockComunicacionConRecepcionistas(LockFile(nombreLockComunicacionConRecepcionistas)) {
+lockComunicacionConRecepcionistas(LockFile(nombreLockComunicacionConRecepcionistas)),
+lockPedidosVigentes(LockFile("pedidosvigentes.lock")),
+pedidosVigentes(MemoriaCompartida<int>("Maestro.cpp", 'A')){
+
 }
 
 Maestro::~Maestro() {
@@ -38,16 +41,27 @@ void Maestro::configurarPipes(Pipe primerPipe, Pipe segundoPipe, Pipe tercerPipe
 }
 
 void Maestro::procesarPedido(Pedido pedido) {
+    string codigoDePedido;
     if(pedido.contenidoDePedido == VACIO){
         LOG_DEBUG(this->cadenaIdentificadora + " con id: " + to_string(getpid()) + ". Procedo con la orden, mi dia "
                   "laboral ha terminado. Me voy a mi casa.");
+        codigoDePedido = "C";
         this->continuarAtendiendoPedidos = false;
-    } else{
+    } else {
         LOG_DEBUG(this->cadenaIdentificadora + " con id: " + to_string(getpid()) + ". Solicitando masa madre"
                   "al gran maestro.");
-        this->comunicacionConMaestroMasaMadre.escribir("M", sizeof(char));
-
+        codigoDePedido = "P";
     }
+
+    this->comunicacionConMaestroMasaMadre.escribir(codigoDePedido.c_str(), sizeof(char));
+    this->lockPedidosVigentes.tomarLock();
+    LOG_DEBUG(this->cadenaIdentificadora + " con id: " + to_string(getpid()) + + ". Adquirido lock para leer "
+              "la memoria compartida de pedidos vigentes.");
+    int totalPedidosVigentes = this->pedidosVigentes.leer();
+    LOG_DEBUG(this->cadenaIdentificadora + " con id: " + to_string(getpid()) + + "Se leyeron " + to_string(totalPedidosVigentes) +
+              " pedidos vigentes. Se escriben " + to_string(totalPedidosVigentes+1) + " pedidos vigentes.");
+    this->pedidosVigentes.escribir(totalPedidosVigentes + 1);
+    this->lockPedidosVigentes.liberarLock();
 }
 
 

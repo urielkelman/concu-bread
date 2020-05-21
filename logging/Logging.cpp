@@ -46,8 +46,8 @@ void Logging::Loggear(NivelDeLogging _nivelDeLogging, string mensaje, string pat
         string l = linea.str();
         const char* w = l.c_str();
         lock.tomarLock();
-        lock.escribir(w, l.length());
         cout << l;
+        lock.escribir(w, l.length());
         lock.liberarLock();
     }
 }

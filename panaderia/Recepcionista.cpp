@@ -14,6 +14,7 @@ Recepcionista::Recepcionista() : lockComunicacionConPanaderia(LockFile("recepcio
 void Recepcionista::esperarPorSolicitudes() {
     Pedido pedido;
     while(this->continuarAtendiendoPedidos){
+        LOG_DEBUG("Voy a tomar lock");
         this->lockComunicacionConPanaderia.tomarLock();
         LOG_DEBUG("Recepcionista con id: " + to_string(getpid()) + ". Lock adquirido para leer del pipe de "
                                                                    "comunicacion con la panaderia.");

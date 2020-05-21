@@ -8,6 +8,7 @@
 #include "Empleado.h"
 #include "../concurrencia/pipes/Pipe.h"
 #include "../concurrencia/locks/LockFile.h"
+#include "../concurrencia/memoria/MemoriaCompartida.h"
 #include "Panaderia.h"
 
 class Maestro : public Empleado {
@@ -19,13 +20,13 @@ public:
     void configurarPipes(Pipe primerPipe, Pipe segundoPipe, Pipe tercerPipe) override;
     void esperarPorSolicitudes() override;
 
-protected:
-    LockFile lockComunicacionConRecepcionistas;
-
 private:
+    LockFile lockComunicacionConRecepcionistas;
+    LockFile lockPedidosVigentes;
     Pipe comunicacionConRecepcionistas;
     Pipe comunicacionConMaestroMasaMadre;
     Pipe recepcionMasaMadre;
+    MemoriaCompartida<int> pedidosVigentes;
 
     void procesarPedido(Pedido pedido);
 

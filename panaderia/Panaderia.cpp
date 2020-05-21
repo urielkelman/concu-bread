@@ -3,11 +3,13 @@
 //
 
 #include <unistd.h>
+#include <wait.h>
 #include "Panaderia.h"
 #include "Empleado.h"
 #include "Recepcionista.h"
 #include "MaestroPanadero.h"
 #include "MaestroPizzero.h"
+#include "MaestroMasaMadre.h"
 
 vector<string> Panaderia::TIPO_A_CADENA = {"PAN", "PIZZA", "NOTIFICACION_DE_CIERRE"};
 vector<string> Panaderia::CONTENIDO_A_CADENA = {"LLENO", "VACIO"};
@@ -21,14 +23,16 @@ Panaderia::Panaderia(Config config) {
     Pipe canalMaestroAMaestroMasaMadre;
     Pipe canalMaestroMasaMadreAMaestro;
     Recepcionista recepcionista;
+    this->generarMaestroDeMasaMadre(canalMaestroAMaestroMasaMadre, canalMaestroMasaMadreAMaestro);
+
     this->generarEntidad(&recepcionista, config.obtenerRecepcionistas(), this->canalConRecepcionistas,
-            canalRecepcionistasMaestroPanadero, canalRecepcionistaMaestroPizzero);
+                         canalRecepcionistasMaestroPanadero, canalRecepcionistaMaestroPizzero);
     MaestroPanadero maestroPanadero;
     this->generarEntidad(&maestroPanadero, config.obtenerMaestrosPanaderos(), canalRecepcionistasMaestroPanadero,
-            canalMaestroAMaestroMasaMadre, canalMaestroMasaMadreAMaestro);
+                         canalMaestroAMaestroMasaMadre, canalMaestroMasaMadreAMaestro);
     MaestroPizzero maestroPizzero;
     this->generarEntidad(&maestroPizzero, config.obtenerMaestrosPizzeros(), canalRecepcionistaMaestroPizzero,
-            canalMaestroAMaestroMasaMadre, canalMaestroMasaMadreAMaestro);
+                         canalMaestroAMaestroMasaMadre, canalMaestroMasaMadreAMaestro);
 }
 
 Panaderia::~Panaderia() {
@@ -75,6 +79,9 @@ void Panaderia::notificarFinalizacion() {
         LOG_DEBUG("Enviando notificacion " + to_string(i) + " de cierre de panaderia.");
         this->canalConRecepcionistas.escribir(static_cast<const void*>(&pedido), sizeof(Pedido));
     }
+    pid_t waitingPid;
+    int status;
+    //while((waitingPid = wait(&status)) > 0);
 }
 
 void Panaderia::comenzarSimulacion(int cantidadDePedidos) {
@@ -89,6 +96,22 @@ void Panaderia::comenzarSimulacion(int cantidadDePedidos) {
     }
 
     this->notificarFinalizacion();
+}
+
+void Panaderia::generarMaestroDeMasaMadre(Pipe canalMaestroAMasaMadre, Pipe canalMaestroMasaMadreAMaestro) {
+    pid_t id = fork();
+    if(id == 0){
+        try{
+            LOG_DEBUG("VOY A CREAR AL PUTO MAESTRO DE LA MASA MADRE");
+            int cocineros = this->config.obtenerMaestrosPanaderos() + this->config.obtenerMaestrosPizzeros();
+            LOG_DEBUG("Total maestros " + to_string(cocineros));
+            MaestroMasaMadre maestroMasaMadre(canalMaestroAMasaMadre, canalMaestroMasaMadreAMaestro,
+                                              this->config.obtenerMaestrosPizzeros() + this->config.obtenerMaestrosPanaderos());
+        } catch (...) {
+            LOG_DEBUG("ERRORRRRRRR");
+        }
+
+    }
 }
 
 

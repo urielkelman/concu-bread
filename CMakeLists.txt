@@ -35,4 +35,4 @@ add_executable(concu_bread
         panaderia/Panaderia.h
         panaderia/Recepcionista.cpp
         panaderia/Recepcionista.h
-        main.cpp concurrencia/locks/LockFile.cpp concurrencia/locks/LockFile.h panaderia/MaestroPanadero.cpp panaderia/MaestroPanadero.h panaderia/Maestro.cpp panaderia/Maestro.h panaderia/MaestroPizzero.cpp panaderia/MaestroPizzero.h)
+        main.cpp concurrencia/locks/LockFile.cpp concurrencia/locks/LockFile.h panaderia/MaestroPanadero.cpp panaderia/MaestroPanadero.h panaderia/Maestro.cpp panaderia/Maestro.h panaderia/MaestroPizzero.cpp panaderia/MaestroPizzero.h panaderia/MaestroMasaMadre.cpp panaderia/MaestroMasaMadre.h)

@@ -41,7 +41,7 @@ template <class T> MemoriaCompartida <T> :: MemoriaCompartida(const std::string&
 }
 
 template <class T> void MemoriaCompartida<T> :: crear(const std::string& archivo, const char letra) {
-    key_t clave = ftok (archivo.c_str(), letra);
+    key_t clave = ftok("/bin/bash", letra);
 
     if (clave > 0) {
         this->shmId = shmget (clave, sizeof(T), 0644|IPC_CREAT);
@@ -49,7 +49,7 @@ template <class T> void MemoriaCompartida<T> :: crear(const std::string& archivo
         if (this->shmId > 0) {
             void* tmpPtr = shmat (this->shmId, NULL, 0);
             if (tmpPtr != (void*) -1) {
-                this->ptrDatos = static_cast<T*> (tmpPtr);
+                this->datos = static_cast<T*> (tmpPtr);
             } else {
                 std::string mensaje = std::string("Error en shmat(): ") + std::string(strerror(errno));
                 throw mensaje;
@@ -81,7 +81,7 @@ template <class T> void MemoriaCompartida<T> :: liberar() {
 }
 
 template <class T> MemoriaCompartida<T> :: ~MemoriaCompartida () {
-    int errorDt = shmdt (static_cast<void*> (this->ptrDatos));
+    int errorDt = shmdt (static_cast<void*> (this->datos));
 
     if (errorDt != -1) {
         int procAdosados = this->cantidadProcesosAdosados();
@@ -94,11 +94,17 @@ template <class T> MemoriaCompartida<T> :: ~MemoriaCompartida () {
 }
 
 template <class T> void MemoriaCompartida<T> :: escribir (const T& dato) {
-    *(this->ptrDatos) = dato;
+    *(this->datos) = dato;
 }
 
 template <class T> T MemoriaCompartida<T> :: leer() const {
-    return *(this->ptrDatos);
+    return *(this->datos);
+}
+
+template <class T> int MemoriaCompartida<T> :: cantidadProcesosAdosados () const {
+    shmid_ds estado;
+    shmctl ( this->shmId,IPC_STAT,&estado );
+    return estado.shm_nattch;
 }
 
 #endif //CONCU_BREAD_MEMORIACOMPARTIDA_H
