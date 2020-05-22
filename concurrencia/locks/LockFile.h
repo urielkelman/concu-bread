@@ -18,6 +18,7 @@ private:
     std::string nombre;
 
 public:
+    LockFile();
     LockFile ( const std::string nombre );
     ~LockFile();
 

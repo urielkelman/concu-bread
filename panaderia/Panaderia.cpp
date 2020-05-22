@@ -101,16 +101,9 @@ void Panaderia::comenzarSimulacion(int cantidadDePedidos) {
 void Panaderia::generarMaestroDeMasaMadre(Pipe canalMaestroAMasaMadre, Pipe canalMaestroMasaMadreAMaestro) {
     pid_t id = fork();
     if(id == 0){
-        try{
-            LOG_DEBUG("VOY A CREAR AL PUTO MAESTRO DE LA MASA MADRE");
-            int cocineros = this->config.obtenerMaestrosPanaderos() + this->config.obtenerMaestrosPizzeros();
-            LOG_DEBUG("Total maestros " + to_string(cocineros));
-            MaestroMasaMadre maestroMasaMadre(canalMaestroAMasaMadre, canalMaestroMasaMadreAMaestro,
-                                              this->config.obtenerMaestrosPizzeros() + this->config.obtenerMaestrosPanaderos());
-        } catch (...) {
-            LOG_DEBUG("ERRORRRRRRR");
-        }
-
+        int cocineros = this->config.obtenerMaestrosPanaderos() + this->config.obtenerMaestrosPizzeros();
+        MaestroMasaMadre maestroMasaMadre(canalMaestroAMasaMadre, canalMaestroMasaMadreAMaestro,
+                                          cocineros);
     }
 }
 

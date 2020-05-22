@@ -13,9 +13,12 @@ struct MasaMadre {
     int cantidadDeAlimento = 0;
 };
 
+typedef char RacionMasaMadre;
+
 class MaestroMasaMadre {
 public:
     MaestroMasaMadre(Pipe comunicacionPedidosDeMasaMadre, Pipe comunicacionEntregaDeMasaMadre, int cantidadDeCocineros);
+
     ~MaestroMasaMadre();
 
 private:
@@ -27,11 +30,14 @@ private:
     int cantidadDeCocineros;
     bool continuarProcesandoPedidos = true;
     MasaMadre masaMadre;
+    int MASA_MADRE_POR_RACION = 3;
 
-    void esperarPorSolicitudes();
+    void esperarPorNotificaciones();
+    void procesarNotificacion(char notificacion);
     bool hayPedidosEnEspera();
     bool hayRacionDeMasaDisponible();
     void alimentarMasaMadre();
+    void liberarRecursosDeComunicacion();
 
 };
 

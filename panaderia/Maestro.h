@@ -11,6 +11,8 @@
 #include "../concurrencia/memoria/MemoriaCompartida.h"
 #include "Panaderia.h"
 
+typedef char NotificacionMaestro;
+
 class Maestro : public Empleado {
 public:
     Maestro(string lockComunicacionConRecepcionistas);
@@ -29,6 +31,7 @@ private:
     MemoriaCompartida<int> pedidosVigentes;
 
     void procesarPedido(Pedido pedido);
+    void liberarRecursosDeComunicacion();
 
     virtual void cocinar() = 0;
 };

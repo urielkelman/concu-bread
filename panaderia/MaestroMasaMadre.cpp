@@ -2,37 +2,74 @@
 // Created by urielkelman on 20/5/20.
 //
 
-#include <Logging.h>
+#include "../logging/Logging.h"
 #include "MaestroMasaMadre.h"
+#include "Maestro.h"
 
-MaestroMasaMadre::MaestroMasaMadre(Pipe comunicacionPedidosDeMasaMadre, Pipe comunicacionEntregaDeMasaMadre, int cantidadDeCocineros):
-lockComunicacionPedidosDeMasaMadre(LockFile("maestromasamadre.lock")),
-lockPedidosVigentes(LockFile("pedidosvigentes.lock")){
-    LOG_DEBUG("ASDADWADWA");
+MaestroMasaMadre::MaestroMasaMadre(Pipe comunicacionPedidosDeMasaMadre, Pipe comunicacionEntregaDeMasaMadre, int cantidadDeCocineros) :
+lockComunicacionPedidosDeMasaMadre("maestromasamadre.lock"),
+lockPedidosVigentes("pedidosvigentes.lock"),
+pedidosVigentes(MemoriaCompartida<int>("Maestro.cpp", 'C')){
     this->comunicacionPedidosDeMasaMadre = comunicacionPedidosDeMasaMadre;
     this->comunicacionEntregaDeMasaMadre = comunicacionEntregaDeMasaMadre;
     this->cantidadDeCocineros = cantidadDeCocineros;
-    /*LOG_DEBUG("Registrando maestro de la masa madre. Mi id de proceso es: " + to_string(getpid()) + ", y el de mi "
+    LOG_DEBUG("Registrando maestro de la masa madre. Mi id de proceso es: " + to_string(getpid()) + ", y el de mi "
               "padre es: " + to_string(getppid()));
-    this->pedidosVigentes = MemoriaCompartida<int>("Maestro.cpp", 'A')  ;
-    LOG_DEBUG("Inicializando memoria compartida de pedidos vigentes en 0.");
     this->pedidosVigentes.escribir(0);
-    this->esperarPorSolicitudes();*/
+    LOG_DEBUG("Inicializando memoria compartida de pedidos vigentes en 0.");
+    this->esperarPorNotificaciones();
 }
 
 MaestroMasaMadre::~MaestroMasaMadre() {
 
 }
 
-void MaestroMasaMadre::esperarPorSolicitudes() {
+void MaestroMasaMadre::esperarPorNotificaciones() {
+
     while(this->continuarProcesandoPedidos){
-        if(this->hayPedidosEnEspera() && this->hayRacionDeMasaDisponible()){
+
+        LOG_DEBUG("Intentando escribir..");
+        this->comunicacionEntregaDeMasaMadre.escribir("A", sizeof(char));
+        LOG_DEBUG("Escribio");
+
+        /*
+         * TODO: Ojo que la segunda condicion obliga a tener una masa madre disponible mientras que puede no necesitarse,
+         * TODO: ya que la notificacion puede ser de cierre.
+         */
+        /*if(this->hayPedidosEnEspera() && this->hayRacionDeMasaDisponible()){
             char notificacion[1];
-            this->comunicacionPedidosDeMasaMadre.leer(&notificacion, sizeof(char));
-            LOG_DEBUG("Se leyo una notificacion de tipo " + string(notificacion));
-            exit(0);
+            this->comunicacionPedidosDeMasaMadre.leer(&notificacion, sizeof(NotificacionMaestro));
+            this->procesarNotificacion(*notificacion);
+        }*/
+        this->alimentarMasaMadre();
+    }
+
+    this->liberarRecursosDeComunicacion();
+}
+
+void MaestroMasaMadre::procesarNotificacion(char notificacion) {
+    if (notificacion == 'P') {
+        LOG_DEBUG("Procesando notificacion de pedido de masa madre.");
+        this->masaMadre.cantidadDeAlimento -= this->MASA_MADRE_POR_RACION;
+        //LOG_DEBUG("Se deposita la racion de masa madre en el pipe de comunicacion con los cocineros.");
+        //this->comunicacionEntregaDeMasaMadre.escribir("M", sizeof(char));
+        //LOG_DEBUG("Se escribio");
+    } else {
+        LOG_DEBUG("Procesando notificacion de cierre de cocinero.");
+        this->cantidadDeCocineros -= 1;
+        if(this->cantidadDeCocineros == 0){
+            LOG_DEBUG("Todos los cocineros han notificado que cierran por el dia de hoy. Procedere a hacer lo mismo.");
+            this->continuarProcesandoPedidos = false;
         }
     }
+
+    this->lockPedidosVigentes.tomarLock();
+    LOG_DEBUG("Lock adquirido para disminuir cantidad de pedidos vigentes.");
+    int totalPedidosVigentes = this->pedidosVigentes.leer();
+    LOG_DEBUG("Se leyeron " + to_string(totalPedidosVigentes) + " pedidos vigentes. Se escriben " +
+              to_string(totalPedidosVigentes - 1) + " pedidos vigentes.");
+    this->pedidosVigentes.escribir(totalPedidosVigentes - 1);
+    this->lockPedidosVigentes.liberarLock();
 }
 
 bool MaestroMasaMadre::hayPedidosEnEspera() {
@@ -50,7 +87,20 @@ void MaestroMasaMadre::alimentarMasaMadre() {
 }
 
 bool MaestroMasaMadre::hayRacionDeMasaDisponible() {
-    return this->masaMadre.cantidadDeAlimento > 3;
+    return this->masaMadre.cantidadDeAlimento >= this->MASA_MADRE_POR_RACION;
+}
+
+void MaestroMasaMadre::liberarRecursosDeComunicacion() {
+    LOG_DEBUG("Cerrando canal de comunicacion de pedidos de masa madre");
+    this->comunicacionEntregaDeMasaMadre.cerrar();
+
+    LOG_DEBUG("Cerrando canal de comunicacion de entregas de masa madre");
+    this->comunicacionEntregaDeMasaMadre.cerrar();
+
+    LOG_DEBUG("Cerrando memoria compartida de pedidos vigentes");
+    this->pedidosVigentes.liberar();
+
+    exit(0);
 }
 
 

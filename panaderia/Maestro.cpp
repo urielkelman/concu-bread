@@ -6,10 +6,9 @@
 #include "Panaderia.h"
 
 Maestro::Maestro(string nombreLockComunicacionConRecepcionistas) :
-lockComunicacionConRecepcionistas(LockFile(nombreLockComunicacionConRecepcionistas)),
-lockPedidosVigentes(LockFile("pedidosvigentes.lock")),
-pedidosVigentes(MemoriaCompartida<int>("Maestro.cpp", 'A')){
-
+lockComunicacionConRecepcionistas(nombreLockComunicacionConRecepcionistas),
+lockPedidosVigentes("pedidosvigentes.lock"),
+pedidosVigentes(MemoriaCompartida<int>("Maestro.cpp", 'C')){
 }
 
 Maestro::~Maestro() {
@@ -31,6 +30,7 @@ void Maestro::esperarPorSolicitudes() {
         usleep(100);
     }
 
+    this->liberarRecursosDeComunicacion();
     exit(0);
 }
 
@@ -48,20 +48,31 @@ void Maestro::procesarPedido(Pedido pedido) {
         codigoDePedido = "C";
         this->continuarAtendiendoPedidos = false;
     } else {
-        LOG_DEBUG(this->cadenaIdentificadora + " con id: " + to_string(getpid()) + ". Solicitando masa madre"
+        LOG_DEBUG(this->cadenaIdentificadora + " con id: " + to_string(getpid()) + ". Solicitando masa madre "
                   "al gran maestro.");
         codigoDePedido = "P";
     }
 
-    this->comunicacionConMaestroMasaMadre.escribir(codigoDePedido.c_str(), sizeof(char));
+    this->comunicacionConMaestroMasaMadre.escribir(codigoDePedido.c_str(), sizeof(NotificacionMaestro));
     this->lockPedidosVigentes.tomarLock();
     LOG_DEBUG(this->cadenaIdentificadora + " con id: " + to_string(getpid()) + + ". Adquirido lock para leer "
               "la memoria compartida de pedidos vigentes.");
     int totalPedidosVigentes = this->pedidosVigentes.leer();
-    LOG_DEBUG(this->cadenaIdentificadora + " con id: " + to_string(getpid()) + + "Se leyeron " + to_string(totalPedidosVigentes) +
+    LOG_DEBUG(this->cadenaIdentificadora + " con id: " + to_string(getpid()) + + ". Se leyeron " + to_string(totalPedidosVigentes) +
               " pedidos vigentes. Se escriben " + to_string(totalPedidosVigentes+1) + " pedidos vigentes.");
     this->pedidosVigentes.escribir(totalPedidosVigentes + 1);
     this->lockPedidosVigentes.liberarLock();
+}
+
+void Maestro::liberarRecursosDeComunicacion() {
+    LOG_DEBUG("Cerrando memoria compartida de pedidos vigentes");
+    this->pedidosVigentes.liberar();
+
+    LOG_DEBUG("Cerrando comunicacion con los recepcionistas.");
+    this->comunicacionConRecepcionistas.cerrar();
+
+    LOG_DEBUG("Cerrando comunicacion con el maestro de la masa madre.");
+    this->comunicacionConMaestroMasaMadre.cerrar();
 }
 
 

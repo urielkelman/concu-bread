@@ -51,7 +51,7 @@ int main(int argc, char *argv[]) {
             Logging::Inicializar(config.obtenerNivelDeLogging());
             LOG_INFO("Configuracion correctamente introducida.");
             Panaderia panaderia(config);
-            panaderia.comenzarSimulacion(1);
+            panaderia.comenzarSimulacion(2);
             LOG_INFO("Simulacion terminada.  " + to_string(getpid()));
         }
     }
