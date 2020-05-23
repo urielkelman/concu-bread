@@ -12,7 +12,9 @@ public:
     MaestroPanadero();
     ~MaestroPanadero();
 private:
-    void cocinar() override;
+    int TIEMPO_COCCION_PAN = 3;
+
+    void cocinar(MasaMadre masaMadre) override;
 };
 
 

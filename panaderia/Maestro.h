@@ -10,6 +10,7 @@
 #include "../concurrencia/locks/LockFile.h"
 #include "../concurrencia/memoria/MemoriaCompartida.h"
 #include "Panaderia.h"
+#include "MaestroMasaMadre.h"
 
 typedef char NotificacionMaestro;
 
@@ -25,15 +26,18 @@ public:
 private:
     LockFile lockComunicacionConRecepcionistas;
     LockFile lockPedidosVigentes;
+    LockFile lockMasaMadre;
     Pipe comunicacionConRecepcionistas;
     Pipe comunicacionConMaestroMasaMadre;
     Pipe recepcionMasaMadre;
     MemoriaCompartida<int> pedidosVigentes;
+    int numeroDePedidoActual = 0;
 
     void procesarPedido(Pedido pedido);
     void liberarRecursosDeComunicacion();
+    MasaMadre retirarMasaMadre();
+    virtual void cocinar(MasaMadre masaMadre) = 0;
 
-    virtual void cocinar() = 0;
 };
 
 

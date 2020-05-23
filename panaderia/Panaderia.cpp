@@ -52,11 +52,7 @@ void Panaderia::generarEntidad(Empleado *empleado, int cantidad, Pipe primerPipe
 TipoDePedido Panaderia::generarPedidoAleatoriamente(){
     srand(time(NULL));
     int numeroRandom = rand() % 10 + 1;
-    if(numeroRandom > 5){
-        return PAN;
-    } else {
-        return PIZZA;
-    }
+    return numeroRandom > 5 ? PAN : PIZZA;
 }
 
 void Panaderia::enviarPedidosVacios(TipoDePedido tipoDePedido, int cantidadDePedidos) {
@@ -81,7 +77,7 @@ void Panaderia::notificarFinalizacion() {
     }
     pid_t waitingPid;
     int status;
-    //while((waitingPid = wait(&status)) > 0);
+    while((waitingPid = wait(&status)) > 0);
 }
 
 void Panaderia::comenzarSimulacion(int cantidadDePedidos) {

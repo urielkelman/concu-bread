@@ -26,21 +26,15 @@ MaestroMasaMadre::~MaestroMasaMadre() {
 
 void MaestroMasaMadre::esperarPorNotificaciones() {
 
-    while(this->continuarProcesandoPedidos){
-
-        LOG_DEBUG("Intentando escribir..");
-        this->comunicacionEntregaDeMasaMadre.escribir("A", sizeof(char));
-        LOG_DEBUG("Escribio");
-
-        /*
+    while(this->continuarProcesandoPedidos){        /*
          * TODO: Ojo que la segunda condicion obliga a tener una masa madre disponible mientras que puede no necesitarse,
          * TODO: ya que la notificacion puede ser de cierre.
          */
-        /*if(this->hayPedidosEnEspera() && this->hayRacionDeMasaDisponible()){
+        if(this->hayPedidosEnEspera() && this->hayRacionDeMasaDisponible()){
             char notificacion[1];
             this->comunicacionPedidosDeMasaMadre.leer(&notificacion, sizeof(NotificacionMaestro));
             this->procesarNotificacion(*notificacion);
-        }*/
+        }
         this->alimentarMasaMadre();
     }
 
@@ -51,9 +45,9 @@ void MaestroMasaMadre::procesarNotificacion(char notificacion) {
     if (notificacion == 'P') {
         LOG_DEBUG("Procesando notificacion de pedido de masa madre.");
         this->masaMadre.cantidadDeAlimento -= this->MASA_MADRE_POR_RACION;
-        //LOG_DEBUG("Se deposita la racion de masa madre en el pipe de comunicacion con los cocineros.");
-        //this->comunicacionEntregaDeMasaMadre.escribir("M", sizeof(char));
-        //LOG_DEBUG("Se escribio");
+        LOG_DEBUG("Se deposita la racion de masa madre en el pipe de comunicacion con los cocineros.");
+        this->comunicacionEntregaDeMasaMadre.escribir("M", sizeof(char));
+        LOG_DEBUG("Se escribio");
     } else {
         LOG_DEBUG("Procesando notificacion de cierre de cocinero.");
         this->cantidadDeCocineros -= 1;
