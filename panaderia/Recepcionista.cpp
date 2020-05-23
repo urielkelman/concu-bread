@@ -7,7 +7,8 @@
 
 #include "Panaderia.h"
 
-Recepcionista::Recepcionista() : lockComunicacionConPanaderia(LockFile("recepcionista.lock")) {
+Recepcionista::Recepcionista() : lockComunicacionConPanaderia("recepcionista.lock") {
+    this->lockComunicacionConPanaderia = new LockFile("recepcionista.lock");
     this->cadenaIdentificadora = "recepcionista";
 }
 

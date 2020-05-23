@@ -14,10 +14,10 @@ MaestroPizzero::~MaestroPizzero() {
 
 void MaestroPizzero::cocinar(MasaMadre) {
     int tiempoDeCoccionAleatoria = this->obtenerTiempoDeCoccionAleatoria();
-    LOG_DEBUG("Maestro panadero con id: " + to_string(getpid()) + ". Comenzando a preparar pizza. "
+    LOG_DEBUG("Maestro pizzero con id: " + to_string(getpid()) + ". Comenzando a preparar pizza. "
               "Tiempo de coccion: " + to_string(tiempoDeCoccionAleatoria));
     sleep(tiempoDeCoccionAleatoria);
-    LOG_DEBUG("Maestro panadero con id: " + to_string(getpid()) + ". Pizza preparado. Entregado a repartidor.");
+    LOG_DEBUG("Maestro pizzero con id: " + to_string(getpid()) + ". Pizza preparada. Entregado a repartidor.");
 }
 
 int MaestroPizzero::obtenerTiempoDeCoccionAleatoria() {

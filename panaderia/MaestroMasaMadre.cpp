@@ -9,7 +9,7 @@
 MaestroMasaMadre::MaestroMasaMadre(Pipe comunicacionPedidosDeMasaMadre, Pipe comunicacionEntregaDeMasaMadre, int cantidadDeCocineros) :
 lockComunicacionPedidosDeMasaMadre("maestromasamadre.lock"),
 lockPedidosVigentes("pedidosvigentes.lock"),
-pedidosVigentes(MemoriaCompartida<int>("Maestro.cpp", 'C')){
+pedidosVigentes(MemoriaCompartida<int>('A')){
     this->comunicacionPedidosDeMasaMadre = comunicacionPedidosDeMasaMadre;
     this->comunicacionEntregaDeMasaMadre = comunicacionEntregaDeMasaMadre;
     this->cantidadDeCocineros = cantidadDeCocineros;
@@ -47,7 +47,6 @@ void MaestroMasaMadre::procesarNotificacion(char notificacion) {
         this->masaMadre.cantidadDeAlimento -= this->MASA_MADRE_POR_RACION;
         LOG_DEBUG("Se deposita la racion de masa madre en el pipe de comunicacion con los cocineros.");
         this->comunicacionEntregaDeMasaMadre.escribir("M", sizeof(char));
-        LOG_DEBUG("Se escribio");
     } else {
         LOG_DEBUG("Procesando notificacion de cierre de cocinero.");
         this->cantidadDeCocineros -= 1;

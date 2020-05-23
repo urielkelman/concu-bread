@@ -20,13 +20,14 @@ private:
     int	shmId;
     T*	datos;
     int	cantidadProcesosAdosados() const;
+    std::string archivo = "/bin/bash";
 
 public:
     MemoriaCompartida();
-    MemoriaCompartida(const std::string& archivo, const char letra);
+    MemoriaCompartida(const char letra);
     ~MemoriaCompartida();
 
-    void crear(const std::string& archivo, const char letra);
+    void crear(const char letra);
     void liberar();
 
     void escribir ( const T& dato );
@@ -36,12 +37,12 @@ public:
 template <class T> MemoriaCompartida<T> :: MemoriaCompartida(): shmId(0), datos(NULL) {
 }
 
-template <class T> MemoriaCompartida <T> :: MemoriaCompartida(const std::string& archivo, const char letra): shmId(0), datos(NULL) {
-    this->crear(archivo, letra);
+template <class T> MemoriaCompartida <T> :: MemoriaCompartida(const char letra): shmId(0), datos(NULL) {
+    this->crear(letra);
 }
 
-template <class T> void MemoriaCompartida<T> :: crear(const std::string& archivo, const char letra) {
-    key_t clave = ftok("/bin/bash", letra);
+template <class T> void MemoriaCompartida<T> :: crear(const char letra) {
+    key_t clave = ftok(archivo.c_str(), letra);
 
     if (clave > 0) {
         this->shmId = shmget (clave, sizeof(T), 0644|IPC_CREAT);

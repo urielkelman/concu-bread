@@ -50,7 +50,6 @@ void Panaderia::generarEntidad(Empleado *empleado, int cantidad, Pipe primerPipe
 }
 
 TipoDePedido Panaderia::generarPedidoAleatoriamente(){
-    srand(time(NULL));
     int numeroRandom = rand() % 10 + 1;
     return numeroRandom > 5 ? PAN : PIZZA;
 }

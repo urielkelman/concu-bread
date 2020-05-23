@@ -2,11 +2,12 @@
 // Created by urielkelman on 16/5/20.
 //
 
-#include "../logging/Logging.h"
 #include "LockFile.h"
 
+#include <utility>
+
 LockFile::LockFile (std::string nombre){
-    this->nombre = nombre;
+    this->nombre = std::move(nombre);
     this->fl.l_type = F_WRLCK;
     this->fl.l_whence = SEEK_SET;
     this->fl.l_start = 0;
@@ -30,7 +31,7 @@ ssize_t LockFile::escribir(const char* buffer, const ssize_t buffsize) const {
 }
 
 LockFile::~LockFile () {
-    close (this->fd);
+    close(this->fd);
 }
 
 LockFile::LockFile() {

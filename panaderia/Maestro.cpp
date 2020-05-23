@@ -9,7 +9,7 @@ Maestro::Maestro(string nombreLockComunicacionConRecepcionistas) :
 lockComunicacionConRecepcionistas(nombreLockComunicacionConRecepcionistas),
 lockPedidosVigentes("pedidosvigentes.lock"),
 lockMasaMadre("masamadre.lock"),
-pedidosVigentes(MemoriaCompartida<int>("Maestro.cpp", 'C')){
+pedidosVigentes(MemoriaCompartida<int>('A')){
 }
 
 Maestro::~Maestro() {
@@ -44,13 +44,13 @@ void Maestro::configurarPipes(Pipe primerPipe, Pipe segundoPipe, Pipe tercerPipe
 void Maestro::procesarPedido(Pedido pedido) {
     string codigoDePedido;
     if(pedido.contenidoDePedido == VACIO){
-        LOG_DEBUG(this->cadenaIdentificadora + " con id: " + to_string(getpid()) + "Se proceso pedido con id "
+        LOG_DEBUG(this->cadenaIdentificadora + " con id: " + to_string(getpid()) + ". Se proceso pedido con id "
                   + to_string(pedido.numeroDePedido) + ". Procedo con la orden, mi dia laboral ha terminado. Me voy a mi casa, "
                   "no sin antes avisar al maestro de la masa madre.");
         codigoDePedido = "C";
         this->continuarAtendiendoPedidos = false;
     } else {
-        LOG_DEBUG(this->cadenaIdentificadora + " con id: " + to_string(getpid()) + "Se proceso pedido con id "
+        LOG_DEBUG(this->cadenaIdentificadora + " con id: " + to_string(getpid()) + ". Se proceso pedido con id "
                   + to_string(pedido.numeroDePedido) + ". Solicitando masa madre al gran maestro.");
         codigoDePedido = "P";
     }

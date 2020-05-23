@@ -21,7 +21,7 @@ private:
     Pipe comunicacionConPanaderia;
     Pipe comunicacionConMaestrosPanaderos;
     Pipe comunicacionConMaestrosPizzeros;
-    LockFile lockComunicacionConPanaderia;
+    LockFile* lockComunicacionConPanaderia;
     void entregarPedidoAMaestro(Pedido pedido);
 };
 
