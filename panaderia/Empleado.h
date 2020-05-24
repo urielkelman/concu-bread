@@ -18,6 +18,9 @@ public:
      * podrian resultar confusos cuando se este implementando la funcionalidad.*/
     virtual void configurarPipes(Pipe primerPipe, Pipe segundoPipe, Pipe tercerPipe) = 0;
     virtual void esperarPorSolicitudes() = 0;
+    virtual void liberarRecursos() = 0;
+
+    string obtenerIdentificacion();
 
 protected:
     int numeroDeEmpleado;

@@ -4,12 +4,15 @@
 
 
 #include "Maestro.h"
+#include "../concurrencia/seniales/SignalHandler.h"
+#include "../concurrencia/seniales/EmpleadoSIGINTHandler.h"
 
 Maestro::Maestro(const char* nombreLockComunicacionConRecepcionistas) :
 lockComunicacionConRecepcionistas(nombreLockComunicacionConRecepcionistas),
 lockPedidosVigentes("pedidosvigentes.lock"),
 lockMasaMadre("masamadre.lock"),
 pedidosVigentes(MemoriaCompartida<int>('A')){
+
 }
 
 Maestro::~Maestro() {
@@ -17,6 +20,9 @@ Maestro::~Maestro() {
 }
 
 void Maestro::esperarPorSolicitudes() {
+    EmpleadoSIGINTHandler maestroSIGINTHandler(this);
+    SignalHandler::getInstance()->registrarHandler(SIGINT, &maestroSIGINTHandler);
+
     Pedido pedido;
     while(this->continuarAtendiendoPedidos){
         this->lockComunicacionConRecepcionistas.tomarLock();
@@ -33,7 +39,7 @@ void Maestro::esperarPorSolicitudes() {
         this->procesarPedido(pedido);
     }
 
-    this->liberarRecursosDeComunicacion();
+    this->liberarRecursos();
     exit(0);
 }
 
@@ -57,6 +63,7 @@ void Maestro::procesarPedido(Pedido pedido) {
         codigoDePedido = "P";
     }
 
+    sleep(5);
     this->comunicacionConMaestroMasaMadre.escribir(codigoDePedido.c_str(), sizeof(NotificacionMaestro));
     this->lockPedidosVigentes.tomarLock();
     LOG_DEBUG(
@@ -75,7 +82,9 @@ void Maestro::procesarPedido(Pedido pedido) {
     }
 }
 
-void Maestro::liberarRecursosDeComunicacion() {
+void Maestro::liberarRecursos() {
+    SignalHandler::destruir();
+
     LOG_DEBUG(string(this->cadenaIdentificadora) + " con id: " + to_string(getpid()) + ". Cerrando memoria compartida de pedidos vigentes");
     this->pedidosVigentes.liberar();
 

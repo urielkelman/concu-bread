@@ -16,6 +16,7 @@ public:
     ~Recepcionista();
     void configurarPipes(Pipe primerPipe, Pipe segundoPipe, Pipe tercerPipe) override;
     void esperarPorSolicitudes() override;
+    void liberarRecursos() override;
 
 private:
     Pipe comunicacionConPanaderia;

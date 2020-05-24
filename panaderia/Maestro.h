@@ -22,7 +22,7 @@ public:
 
     void configurarPipes(Pipe primerPipe, Pipe segundoPipe, Pipe tercerPipe) override;
     void esperarPorSolicitudes() override;
-
+    void liberarRecursos() override;
 private:
     LockFile lockComunicacionConRecepcionistas;
     LockFile lockPedidosVigentes;
@@ -34,7 +34,6 @@ private:
     int numeroDePedidoActual = 0;
 
     void procesarPedido(Pedido pedido);
-    void liberarRecursosDeComunicacion();
     MasaMadre retirarMasaMadre();
     virtual void cocinar(MasaMadre masaMadre) = 0;
 

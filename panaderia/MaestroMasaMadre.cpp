@@ -5,16 +5,22 @@
 #include "../logging/Logging.h"
 #include "MaestroMasaMadre.h"
 #include "Maestro.h"
+#include "../concurrencia/seniales/MaestroMasaSIGINTHandler.h"
+#include "../concurrencia/seniales/SignalHandler.h"
 
 MaestroMasaMadre::MaestroMasaMadre(Pipe comunicacionPedidosDeMasaMadre, Pipe comunicacionEntregaDeMasaMadre, int cantidadDeCocineros) :
 lockComunicacionPedidosDeMasaMadre("maestromasamadre.lock"),
 lockPedidosVigentes("pedidosvigentes.lock"),
-pedidosVigentes(MemoriaCompartida<int>('A')){
-    this->comunicacionPedidosDeMasaMadre = comunicacionPedidosDeMasaMadre;
-    this->comunicacionEntregaDeMasaMadre = comunicacionEntregaDeMasaMadre;
-    this->cantidadDeCocineros = cantidadDeCocineros;
+pedidosVigentes(MemoriaCompartida<int>('A')),
+comunicacionPedidosDeMasaMadre(comunicacionPedidosDeMasaMadre),
+comunicacionEntregaDeMasaMadre(comunicacionEntregaDeMasaMadre),
+cantidadDeCocineros(cantidadDeCocineros){
     LOG_DEBUG("Registrando maestro de la masa madre. Mi id de proceso es: " + to_string(getpid()) + ", y el de mi "
               "padre es: " + to_string(getppid()));
+
+    MaestroMasaSIGINTHandler maestroMasaSigintHandler(this);
+    SignalHandler::getInstance()->registrarHandler(SIGINT, &maestroMasaSigintHandler);
+
     this->pedidosVigentes.escribir(0);
     LOG_DEBUG("Inicializando memoria compartida de pedidos vigentes en 0.");
     this->esperarPorNotificaciones();
@@ -84,6 +90,8 @@ bool MaestroMasaMadre::hayRacionDeMasaDisponible() {
 }
 
 void MaestroMasaMadre::liberarRecursosDeComunicacion() {
+    SignalHandler::destruir();
+
     LOG_DEBUG("Cerrando canal de comunicacion de pedidos de masa madre");
     this->comunicacionEntregaDeMasaMadre.cerrar();
 

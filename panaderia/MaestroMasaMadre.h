@@ -18,7 +18,7 @@ typedef char RacionMasaMadre;
 class MaestroMasaMadre {
 public:
     MaestroMasaMadre(Pipe comunicacionPedidosDeMasaMadre, Pipe comunicacionEntregaDeMasaMadre, int cantidadDeCocineros);
-
+    void liberarRecursosDeComunicacion();
     ~MaestroMasaMadre();
 
 private:
@@ -37,7 +37,6 @@ private:
     bool hayPedidosEnEspera();
     bool hayRacionDeMasaDisponible();
     void alimentarMasaMadre();
-    void liberarRecursosDeComunicacion();
 
 };
 

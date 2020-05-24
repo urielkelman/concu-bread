@@ -5,6 +5,7 @@
 #ifndef CONCU_BREAD_PANADERIA_H
 #define CONCU_BREAD_PANADERIA_H
 
+#include "../concurrencia/seniales/SignalHandler.h"
 #include "../concurrencia/pipes/Pipe.h"
 #include "../config/Config.h"
 #include "Empleado.h"
@@ -24,6 +25,8 @@ public:
     ~Panaderia();
 
     void comenzarSimulacion();
+    void liberarRecursos();
+    void iniciarEvacuacion();
 
     static vector<string> TIPO_A_CADENA;
     static vector<string> CONTENIDO_A_CADENA;
@@ -31,6 +34,7 @@ public:
 private:
     Config config;
     Pipe canalConRecepcionistas;
+    vector<pid_t> *empleados;
 
     void generarEntidad(Empleado *empleado, int cantidad, Pipe primerPipe, Pipe segundoPipe, Pipe tercerPipe);
     TipoDePedido generarPedidoAleatoriamente();

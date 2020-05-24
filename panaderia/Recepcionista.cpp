@@ -6,12 +6,18 @@
 #include <unistd.h>
 
 #include "Panaderia.h"
+#include "../concurrencia/seniales/EmpleadoSIGINTHandler.h"
+#include "../concurrencia/seniales/SignalHandler.h"
 
 Recepcionista::Recepcionista() : lockComunicacionConPanaderia("recepcionista.lock"){
     this->cadenaIdentificadora = "Recepcionista";
+
 }
 
 void Recepcionista::esperarPorSolicitudes() {
+    EmpleadoSIGINTHandler recepcionistaSIGINTHandler(this);
+    SignalHandler::getInstance()->registrarHandler(SIGINT, &recepcionistaSIGINTHandler);
+
     Pedido pedido;
     while(this->continuarAtendiendoPedidos){
         this->lockComunicacionConPanaderia.tomarLock();
@@ -29,10 +35,8 @@ void Recepcionista::esperarPorSolicitudes() {
         } else {
             this->entregarPedidoAMaestro(pedido);
         }
-
-        usleep(100);
     }
-
+    this->liberarRecursos();
     exit(0);
 }
 
@@ -55,4 +59,16 @@ void Recepcionista::entregarPedidoAMaestro(Pedido pedido) {
                                                                    "id: " + to_string(pedido.numeroDePedido));
         this->comunicacionConMaestrosPizzeros.escribir(static_cast<const void *>(&pedido), sizeof(Pedido));
     }
+}
+
+void Recepcionista::liberarRecursos() {
+    SignalHandler::destruir();
+
+    LOG_DEBUG("Recepcionista con id: "+ to_string(getpid()) + ". Cerrando comunicacion con panaderia.");
+    this->comunicacionConPanaderia.cerrar();
+    LOG_DEBUG("Recepcionista con id: "+ to_string(getpid()) + ". Cerrando comunicacion con maestros pizzeros.");
+    this->comunicacionConMaestrosPizzeros.cerrar();
+    LOG_DEBUG("Recepcionista con id: "+ to_string(getpid()) + ". Cerrando comunicacion con maestros panaderos.");
+    this->comunicacionConMaestrosPanaderos.cerrar();
+
 }
