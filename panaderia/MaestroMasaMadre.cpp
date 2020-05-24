@@ -113,6 +113,7 @@ void MaestroMasaMadre::liberarRecursosDeComunicacion() {
 void MaestroMasaMadre::avisarCierreARepartidor() {
     PedidoTerminado pedidoTerminado;
     pedidoTerminado.tipoDePedido = NOTIFICACION_DE_CIERRE;
+    pedidoTerminado.numeroDePedido = 0;
     LOG_DEBUG("Avisando a repartidor que el dia laboral ha terminado.");
     this->comunicacionRepartidor.escribir(static_cast<void*>(&pedidoTerminado), sizeof(PedidoTerminado));
 }

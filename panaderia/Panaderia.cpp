@@ -78,7 +78,9 @@ void Panaderia::notificarFinalizacion() {
     this->enviarPedidosVacios(PIZZA, this->config.obtenerMaestrosPizzeros());
     for(int i = 1; i <= this->config.obtenerRecepcionistas(); i++){
         Pedido pedido;
+        pedido.contenidoDePedido = VACIO;
         pedido.tipoDePedido = NOTIFICACION_DE_CIERRE;
+        pedido.numeroDePedido = -i;
         LOG_DEBUG("Enviando notificacion " + to_string(i) + " de cierre de panaderia.");
         this->canalConRecepcionistas.escribir(static_cast<const void*>(&pedido), sizeof(Pedido));
     }
