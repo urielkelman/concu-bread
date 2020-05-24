@@ -53,5 +53,13 @@ NivelDeLogging Config::obtenerNivelDeLogging() {
     return this->nivelDeLogging;
 }
 
+void Config::configurarCantidadDePedidos(int cantidadDePedidos) {
+    this->cantidadDePedidos = cantidadDePedidos;
+}
+
+int Config::obtenerCantidadDePedidos() {
+    return this->cantidadDePedidos;
+}
+
 
 

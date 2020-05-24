@@ -21,7 +21,7 @@ public:
 
 protected:
     int numeroDeEmpleado;
-    string cadenaIdentificadora;
+    const char* cadenaIdentificadora;
     bool continuarAtendiendoPedidos = true;
 };
 

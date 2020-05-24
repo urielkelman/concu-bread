@@ -19,7 +19,7 @@ private:
 
 public:
     LockFile();
-    LockFile ( const std::string nombre );
+    LockFile(const char* nombre);
     ~LockFile();
 
     int tomarLock ();

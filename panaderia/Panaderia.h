@@ -23,7 +23,7 @@ public:
     Panaderia(Config config);
     ~Panaderia();
 
-    void comenzarSimulacion(int cantidadDePedidos);
+    void comenzarSimulacion();
 
     static vector<string> TIPO_A_CADENA;
     static vector<string> CONTENIDO_A_CADENA;

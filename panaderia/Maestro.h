@@ -16,7 +16,7 @@ typedef char NotificacionMaestro;
 
 class Maestro : public Empleado {
 public:
-    Maestro(string lockComunicacionConRecepcionistas);
+    Maestro(const char* nombreLockComunicacionConRecepcionistas);
 
     ~Maestro();
 

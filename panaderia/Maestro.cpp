@@ -5,7 +5,7 @@
 
 #include "Maestro.h"
 
-Maestro::Maestro(string nombreLockComunicacionConRecepcionistas) :
+Maestro::Maestro(const char* nombreLockComunicacionConRecepcionistas) :
 lockComunicacionConRecepcionistas(nombreLockComunicacionConRecepcionistas),
 lockPedidosVigentes("pedidosvigentes.lock"),
 lockMasaMadre("masamadre.lock"),
@@ -20,10 +20,12 @@ void Maestro::esperarPorSolicitudes() {
     Pedido pedido;
     while(this->continuarAtendiendoPedidos){
         this->lockComunicacionConRecepcionistas.tomarLock();
-        LOG_DEBUG(this->cadenaIdentificadora + " con id: " + to_string(getpid()) + ". Lock adquirido para leer del pipe de "
+        LOG_DEBUG(
+
+        string(this->cadenaIdentificadora) + " con id: " + to_string(getpid()) + ". Lock adquirido para leer del pipe de "
                   "comunicacion con los recepcionistas.");
         this->comunicacionConRecepcionistas.leer(static_cast<void*>(&pedido), sizeof(Pedido));
-        LOG_DEBUG(this->cadenaIdentificadora + " con id: " + to_string(getpid()) + ". Se recibio un pedido " +
+        LOG_DEBUG(string(this->cadenaIdentificadora) + " con id: " + to_string(getpid()) + ". Se recibio un pedido " +
                   Panaderia::CONTENIDO_A_CADENA[pedido.contenidoDePedido] + " de " + Panaderia::TIPO_A_CADENA[pedido.tipoDePedido] +
                   ". El numero de pedido es: " + to_string(pedido.numeroDePedido));
         this->lockComunicacionConRecepcionistas.liberarLock();
@@ -44,23 +46,25 @@ void Maestro::configurarPipes(Pipe primerPipe, Pipe segundoPipe, Pipe tercerPipe
 void Maestro::procesarPedido(Pedido pedido) {
     string codigoDePedido;
     if(pedido.contenidoDePedido == VACIO){
-        LOG_DEBUG(this->cadenaIdentificadora + " con id: " + to_string(getpid()) + ". Se proceso pedido con id "
+        LOG_DEBUG(string(this->cadenaIdentificadora) + " con id: " + to_string(getpid()) + ". Se proceso pedido con id "
                   + to_string(pedido.numeroDePedido) + ". Procedo con la orden, mi dia laboral ha terminado. Me voy a mi casa, "
                   "no sin antes avisar al maestro de la masa madre.");
         codigoDePedido = "C";
         this->continuarAtendiendoPedidos = false;
     } else {
-        LOG_DEBUG(this->cadenaIdentificadora + " con id: " + to_string(getpid()) + ". Se proceso pedido con id "
+        LOG_DEBUG(string(this->cadenaIdentificadora) + " con id: " + to_string(getpid()) + ". Se proceso pedido con id "
                   + to_string(pedido.numeroDePedido) + ". Solicitando masa madre al gran maestro.");
         codigoDePedido = "P";
     }
 
     this->comunicacionConMaestroMasaMadre.escribir(codigoDePedido.c_str(), sizeof(NotificacionMaestro));
     this->lockPedidosVigentes.tomarLock();
-    LOG_DEBUG(this->cadenaIdentificadora + " con id: " + to_string(getpid()) + + ". Adquirido lock para leer "
+    LOG_DEBUG(
+
+    string(this->cadenaIdentificadora) + " con id: " + to_string(getpid()) + + ". Adquirido lock para leer "
               "la memoria compartida de pedidos vigentes.");
     int totalPedidosVigentes = this->pedidosVigentes.leer();
-    LOG_DEBUG(this->cadenaIdentificadora + " con id: " + to_string(getpid()) + + ". Se leyeron " + to_string(totalPedidosVigentes) +
+    LOG_DEBUG(string(this->cadenaIdentificadora) + " con id: " + to_string(getpid()) + + ". Se leyeron " + to_string(totalPedidosVigentes) +
               " pedidos vigentes. Se escriben " + to_string(totalPedidosVigentes+1) + " pedidos vigentes.");
     this->pedidosVigentes.escribir(totalPedidosVigentes + 1);
     this->lockPedidosVigentes.liberarLock();
@@ -72,25 +76,25 @@ void Maestro::procesarPedido(Pedido pedido) {
 }
 
 void Maestro::liberarRecursosDeComunicacion() {
-    LOG_DEBUG(this->cadenaIdentificadora + " con id: " + to_string(getpid()) + ". Cerrando memoria compartida de pedidos vigentes");
+    LOG_DEBUG(string(this->cadenaIdentificadora) + " con id: " + to_string(getpid()) + ". Cerrando memoria compartida de pedidos vigentes");
     this->pedidosVigentes.liberar();
 
-    LOG_DEBUG(this->cadenaIdentificadora + " con id: " + to_string(getpid()) + ". Cerrando comunicacion con los recepcionistas.");
+    LOG_DEBUG(string(this->cadenaIdentificadora) + " con id: " + to_string(getpid()) + ". Cerrando comunicacion con los recepcionistas.");
     this->comunicacionConRecepcionistas.cerrar();
 
-    LOG_DEBUG(this->cadenaIdentificadora + " con id: " + to_string(getpid()) + ". Cerrando comunicacion con el maestro de la masa madre.");
+    LOG_DEBUG(string(this->cadenaIdentificadora) + " con id: " + to_string(getpid()) + ". Cerrando comunicacion con el maestro de la masa madre.");
     this->comunicacionConMaestroMasaMadre.cerrar();
 
-    LOG_DEBUG(this->cadenaIdentificadora + " con id: " + to_string(getpid()) + ". Cerrando recepcion de masa madre.");
+    LOG_DEBUG(string(this->cadenaIdentificadora) + " con id: " + to_string(getpid()) + ". Cerrando recepcion de masa madre.");
     this->recepcionMasaMadre.cerrar();
 }
 
 MasaMadre Maestro::retirarMasaMadre() {
     MasaMadre masaMadre;
     this->lockMasaMadre.tomarLock();
-    LOG_DEBUG(this->cadenaIdentificadora + " con id: " + to_string(getpid()) + ". Adquirido lock para leer el pipe y retirar la masa madre."    );
+    LOG_DEBUG(string(this->cadenaIdentificadora) + " con id: " + to_string(getpid()) + ". Adquirido lock para leer el pipe y retirar la masa madre."    );
     this->recepcionMasaMadre.leer(&masaMadre, sizeof(MasaMadre));
-    LOG_DEBUG(this->cadenaIdentificadora + " con id: " + to_string(getpid())  + ". Recibí masa madre para cocinar. "
+    LOG_DEBUG(string(this->cadenaIdentificadora) + " con id: " + to_string(getpid())  + ". Recibí masa madre para cocinar. "
               "Sera utilizada para el pedido: " + to_string(this->numeroDePedidoActual));
     this->lockMasaMadre.liberarLock();
     return masaMadre;

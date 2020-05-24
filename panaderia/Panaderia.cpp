@@ -79,8 +79,8 @@ void Panaderia::notificarFinalizacion() {
     while((waitingPid = wait(&status)) > 0);
 }
 
-void Panaderia::comenzarSimulacion(int cantidadDePedidos) {
-    for(int i = 1; i <= cantidadDePedidos; i++){
+void Panaderia::comenzarSimulacion() {
+    for(int i = 1; i <= this->config.obtenerCantidadDePedidos(); i++){
         Pedido pedido;
         TipoDePedido tipoDePedido = this->generarPedidoAleatoriamente();
         pedido.tipoDePedido = tipoDePedido;

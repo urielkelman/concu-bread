@@ -7,9 +7,8 @@
 
 #include "Panaderia.h"
 
-Recepcionista::Recepcionista() : lockComunicacionConPanaderia("recepcionista.lock") {
-    this->lockComunicacionConPanaderia = new LockFile("recepcionista.lock");
-    this->cadenaIdentificadora = "recepcionista";
+Recepcionista::Recepcionista() : lockComunicacionConPanaderia("recepcionista.lock"){
+    this->cadenaIdentificadora = "Recepcionista";
 }
 
 void Recepcionista::esperarPorSolicitudes() {
@@ -33,6 +32,7 @@ void Recepcionista::esperarPorSolicitudes() {
 
         usleep(100);
     }
+
     exit(0);
 }
 

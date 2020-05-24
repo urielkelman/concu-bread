@@ -9,7 +9,6 @@ MaestroPanadero::MaestroPanadero() : Maestro("maestroPanadero.lock"){
 }
 
 MaestroPanadero::~MaestroPanadero() {
-
 }
 
 void MaestroPanadero::cocinar(MasaMadre masaMadre) {

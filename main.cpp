@@ -8,7 +8,7 @@
 using namespace std;
 
 const string DESCRIPCION_DE_USO = "Uso: ./concubread -m $MAESTROS_PANADEROS -n $MAESTROS_PIZZEROS -r $RECEPCIONISTAS "
-                                  "-l $NIVEL_DE_LOG";
+                                  "-l $NIVEL_DE_LOG -p $CANTIDAD_DE_PEDIDOS";
 
 int determinarCantidadDeParametros(char* argv[]) {
     int i = 0;
@@ -19,7 +19,7 @@ int determinarCantidadDeParametros(char* argv[]) {
 Config popularParametros(char *argv[]){
     Config config;
     if(strcmp(argv[1], "-m") !=0 || strcmp(argv[3], "-n") != 0 ||
-        strcmp(argv[5], "-r") !=0 || strcmp(argv[7], "-l") != 0) {
+        strcmp(argv[5], "-r") !=0 || strcmp(argv[7], "-l") != 0 || strcmp(argv[9], "-p") != 0) {
         config.configurarCorrectitud(false);
         return config;
     } else {
@@ -27,6 +27,7 @@ Config popularParametros(char *argv[]){
             config.configurarMaestrosPanaderos(stoi(argv[2]));
             config.configurarMaestrosPizzeros(stoi(argv[4]));
             config.configurarRecepcionistas(stoi(argv[6]));
+            config.configurarCantidadDePedidos(stoi(argv[10]));
             config.configurarCorrectitud(true);
             config.configurarNivelDeLogging(argv[8]);
         } catch (const invalid_argument &e) {
@@ -39,7 +40,7 @@ Config popularParametros(char *argv[]){
 
 int main(int argc, char *argv[]) {
     int cantidadDeParametros = determinarCantidadDeParametros(argv);
-    if(cantidadDeParametros < 8) {
+    if(cantidadDeParametros < 10) {
         cout << DESCRIPCION_DE_USO << "\n";
         return 0;
     } else {
@@ -51,7 +52,7 @@ int main(int argc, char *argv[]) {
             Logging::Inicializar(config.obtenerNivelDeLogging());
             LOG_INFO("Configuracion correctamente introducida.");
             Panaderia panaderia(config);
-            panaderia.comenzarSimulacion(6);
+            panaderia.comenzarSimulacion();
             LOG_INFO("Simulacion terminada.  " + to_string(getpid()));
         }
     }

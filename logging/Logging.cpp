@@ -14,7 +14,7 @@ NivelDeLogging Logging::nivelDeLogging;
 vector<string> Logging::nivelLogStrings = {"INFO", "DEBUG"};
 int Logging::numeroMagicoDePadding = 24;
 string Logging::ruta = "log8.txt";
-LockFile Logging::lock = LockFile(Logging::ruta);
+LockFile Logging::lock = LockFile(Logging::ruta.c_str());
 
 NivelDeLogging Logging::ObtenerNivelDeLogging(string nivelDeLog) {
     if(nivelLogStrings[INFO] == nivelDeLog){
