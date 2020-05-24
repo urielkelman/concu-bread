@@ -13,7 +13,7 @@ public:
     ~MaestroPizzero();
 
 private:
-    void cocinar(MasaMadre masaMadre) override;
+    TipoDePedido cocinar(MasaMadre masaMadre) override;
     int obtenerTiempoDeCoccionAleatoria();
 };
 

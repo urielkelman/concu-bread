@@ -14,7 +14,7 @@ public:
 private:
     int TIEMPO_COCCION_PAN = 3;
 
-    void cocinar(MasaMadre masaMadre) override;
+    TipoDePedido cocinar(MasaMadre masaMadre) override;
 };
 
 

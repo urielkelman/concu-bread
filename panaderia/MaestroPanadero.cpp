@@ -11,9 +11,10 @@ MaestroPanadero::MaestroPanadero() : Maestro("maestroPanadero.lock"){
 MaestroPanadero::~MaestroPanadero() {
 }
 
-void MaestroPanadero::cocinar(MasaMadre masaMadre) {
+TipoDePedido MaestroPanadero::cocinar(MasaMadre masaMadre) {
     LOG_DEBUG("Maestro panadero con id: " + to_string(getpid()) + ". Comenzando a preparar pan caliente.");
     sleep(this->TIEMPO_COCCION_PAN);
-    LOG_DEBUG("Maestro panadero con id: " + to_string(getpid()) + ". Pan preparado. Entregado a repartidor.");
+    LOG_DEBUG("Maestro panadero con id: " + to_string(getpid()) + ". Pan preparado.");
+    return PAN;
 }
 

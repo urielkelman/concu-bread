@@ -41,6 +41,7 @@ private:
     void notificarFinalizacion();
     void enviarPedidosVacios(TipoDePedido tipoDePedido, int cantidadDePedidos);
     void generarMaestroDeMasaMadre(Pipe canalMaestroAMasaMadre, Pipe canalMaestroMasaMadreAMaestro);
+    void generarRepartidor();
 };
 
 

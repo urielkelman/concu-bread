@@ -8,6 +8,7 @@
 #include "../concurrencia/pipes/Pipe.h"
 #include "../concurrencia/locks/LockFile.h"
 #include "../concurrencia/memoria/MemoriaCompartida.h"
+#include "../concurrencia/fifos/FifoEscritura.h"
 
 struct MasaMadre {
     int cantidadDeAlimento = 0;
@@ -28,6 +29,7 @@ private:
     Pipe comunicacionPedidosDeMasaMadre;
     Pipe comunicacionEntregaDeMasaMadre;
     int cantidadDeCocineros;
+    FifoEscritura comunicacionRepartidor;
     bool continuarProcesandoPedidos = true;
     MasaMadre masaMadre;
     int MASA_MADRE_POR_RACION = 3;
@@ -37,6 +39,7 @@ private:
     bool hayPedidosEnEspera();
     bool hayRacionDeMasaDisponible();
     void alimentarMasaMadre();
+    void avisarCierreARepartidor();
 
 };
 

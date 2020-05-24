@@ -9,7 +9,7 @@
 
 class FifoLectura : public Fifo {
 public:
-    FifoLectura(const std::string nombre);
+    FifoLectura(const char* nombre);
     ~FifoLectura();
 
     void abrir();

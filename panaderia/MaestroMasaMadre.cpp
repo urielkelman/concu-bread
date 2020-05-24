@@ -14,7 +14,8 @@ lockPedidosVigentes("pedidosvigentes.lock"),
 pedidosVigentes(MemoriaCompartida<int>('A')),
 comunicacionPedidosDeMasaMadre(comunicacionPedidosDeMasaMadre),
 comunicacionEntregaDeMasaMadre(comunicacionEntregaDeMasaMadre),
-cantidadDeCocineros(cantidadDeCocineros){
+cantidadDeCocineros(cantidadDeCocineros),
+comunicacionRepartidor("/tmp/fifo-repartidores"){
     LOG_DEBUG("Registrando maestro de la masa madre. Mi id de proceso es: " + to_string(getpid()) + ", y el de mi "
               "padre es: " + to_string(getppid()));
 
@@ -31,7 +32,7 @@ MaestroMasaMadre::~MaestroMasaMadre() {
 }
 
 void MaestroMasaMadre::esperarPorNotificaciones() {
-
+    this->comunicacionRepartidor.abrir();
     while(this->continuarProcesandoPedidos){        /*
          * TODO: Ojo que la segunda condicion obliga a tener una masa madre disponible mientras que puede no necesitarse,
          * TODO: ya que la notificacion puede ser de cierre.
@@ -43,6 +44,7 @@ void MaestroMasaMadre::esperarPorNotificaciones() {
         }
         this->alimentarMasaMadre();
     }
+
 
     this->liberarRecursosDeComunicacion();
 }
@@ -59,6 +61,7 @@ void MaestroMasaMadre::procesarNotificacion(char notificacion) {
         if(this->cantidadDeCocineros == 0){
             LOG_DEBUG("Todos los cocineros han notificado que cierran por el dia de hoy. Procedere a hacer lo mismo.");
             this->continuarProcesandoPedidos = false;
+            this->avisarCierreARepartidor();
         }
     }
 
@@ -92,6 +95,9 @@ bool MaestroMasaMadre::hayRacionDeMasaDisponible() {
 void MaestroMasaMadre::liberarRecursosDeComunicacion() {
     SignalHandler::destruir();
 
+    LOG_DEBUG("Cerrando comunicacion con el repartidor");
+    this->comunicacionRepartidor.cerrar();
+
     LOG_DEBUG("Cerrando canal de comunicacion de pedidos de masa madre");
     this->comunicacionEntregaDeMasaMadre.cerrar();
 
@@ -102,6 +108,13 @@ void MaestroMasaMadre::liberarRecursosDeComunicacion() {
     this->pedidosVigentes.liberar();
 
     exit(0);
+}
+
+void MaestroMasaMadre::avisarCierreARepartidor() {
+    PedidoTerminado pedidoTerminado;
+    pedidoTerminado.tipoDePedido = NOTIFICACION_DE_CIERRE;
+    LOG_DEBUG("Avisando a repartidor que el dia laboral ha terminado.");
+    this->comunicacionRepartidor.escribir(static_cast<void*>(&pedidoTerminado), sizeof(PedidoTerminado));
 }
 
 

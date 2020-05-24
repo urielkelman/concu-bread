@@ -3,7 +3,6 @@ project(concu_bread)
 
 set(CMAKE_CXX_STANDARD 14)
 
-include_directories(concurrencia)
 include_directories(concurrencia/fifos)
 include_directories(concurrencia/locks)
 include_directories(concurrencia/memoria)
@@ -29,7 +28,6 @@ add_executable(concu_bread
         concurrencia/seniales/EventHandler.h
         concurrencia/seniales/MaestroMasaSIGINTHandler.h
         concurrencia/seniales/PanaderiaSIGINTHandler.h
-        concurrencia/seniales/SIGINT_handler.h
         concurrencia/seniales/SignalHandler.cpp
         concurrencia/seniales/SignalHandler.h
         config/Config.cpp
@@ -50,4 +48,6 @@ add_executable(concu_bread
         panaderia/Panaderia.h
         panaderia/Recepcionista.cpp
         panaderia/Recepcionista.h
+        panaderia/Repartidor.cpp
+        panaderia/Repartidor.h
         main.cpp)

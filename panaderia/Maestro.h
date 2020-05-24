@@ -9,10 +9,16 @@
 #include "../concurrencia/pipes/Pipe.h"
 #include "../concurrencia/locks/LockFile.h"
 #include "../concurrencia/memoria/MemoriaCompartida.h"
+#include "../concurrencia/fifos/FifoEscritura.h"
 #include "Panaderia.h"
 #include "MaestroMasaMadre.h"
 
 typedef char NotificacionMaestro;
+
+struct PedidoTerminado {
+    int numeroDePedido;
+    TipoDePedido tipoDePedido;
+};
 
 class Maestro : public Empleado {
 public:
@@ -31,12 +37,13 @@ private:
     Pipe comunicacionConMaestroMasaMadre;
     Pipe recepcionMasaMadre;
     MemoriaCompartida<int> pedidosVigentes;
+    FifoEscritura comunicacionConRepartidores;
     int numeroDePedidoActual = 0;
 
     void procesarPedido(Pedido pedido);
     MasaMadre retirarMasaMadre();
-    virtual void cocinar(MasaMadre masaMadre) = 0;
-
+    virtual TipoDePedido cocinar(MasaMadre masaMadre) = 0;
+    void entregarPedido(TipoDePedido tipoDePedido);
 };
 
 

@@ -10,6 +10,7 @@
 #include "MaestroPanadero.h"
 #include "MaestroPizzero.h"
 #include "MaestroMasaMadre.h"
+#include "Repartidor.h"
 #include "../concurrencia/seniales/PanaderiaSIGINTHandler.h"
 
 vector<string> Panaderia::TIPO_A_CADENA = {"PAN", "PIZZA", "NOTIFICACION_DE_CIERRE"};
@@ -26,7 +27,7 @@ Panaderia::Panaderia(Config config) {
     Pipe canalMaestroMasaMadreAMaestro;
     Recepcionista recepcionista;
     this->generarMaestroDeMasaMadre(canalMaestroAMaestroMasaMadre, canalMaestroMasaMadreAMaestro);
-
+    this->generarRepartidor();
     this->generarEntidad(&recepcionista, config.obtenerRecepcionistas(), this->canalConRecepcionistas,
                          canalRecepcionistasMaestroPanadero, canalRecepcionistaMaestroPizzero);
     MaestroPanadero maestroPanadero;
@@ -129,6 +130,16 @@ void Panaderia::iniciarEvacuacion() {
         kill(empleado, SIGINT);
     }
     LOG_DEBUG("Aviso de evacuacion enviado a todos los empleados");
+}
+
+void Panaderia::generarRepartidor() {
+    pid_t id = fork();
+    if(id == 0){
+        delete this->empleados;
+        Repartidor repartidor;
+    } else {
+        this->empleados->push_back(id);
+    }
 }
 
 

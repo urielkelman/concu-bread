@@ -11,7 +11,8 @@ Maestro::Maestro(const char* nombreLockComunicacionConRecepcionistas) :
 lockComunicacionConRecepcionistas(nombreLockComunicacionConRecepcionistas),
 lockPedidosVigentes("pedidosvigentes.lock"),
 lockMasaMadre("masamadre.lock"),
-pedidosVigentes(MemoriaCompartida<int>('A')){
+pedidosVigentes(MemoriaCompartida<int>('A')),
+comunicacionConRepartidores("/tmp/fifo-repartidores"){
 
 }
 
@@ -20,6 +21,7 @@ Maestro::~Maestro() {
 }
 
 void Maestro::esperarPorSolicitudes() {
+    this->comunicacionConRepartidores.abrir();
     EmpleadoSIGINTHandler maestroSIGINTHandler(this);
     SignalHandler::getInstance()->registrarHandler(SIGINT, &maestroSIGINTHandler);
 
@@ -78,7 +80,8 @@ void Maestro::procesarPedido(Pedido pedido) {
 
     if(this->continuarAtendiendoPedidos){
         MasaMadre masaMadre = this->retirarMasaMadre();
-        this->cocinar(masaMadre);
+        TipoDePedido contenido = this->cocinar(masaMadre);
+        this->entregarPedido(contenido);
     }
 }
 
@@ -96,6 +99,9 @@ void Maestro::liberarRecursos() {
 
     LOG_DEBUG(string(this->cadenaIdentificadora) + " con id: " + to_string(getpid()) + ". Cerrando recepcion de masa madre.");
     this->recepcionMasaMadre.cerrar();
+
+    LOG_DEBUG(string(this->cadenaIdentificadora) + " con id: " + to_string(getpid()) + ". Cerrando comunicacion con repartidores.");
+    this->comunicacionConRepartidores.cerrar();
 }
 
 MasaMadre Maestro::retirarMasaMadre() {
@@ -107,6 +113,15 @@ MasaMadre Maestro::retirarMasaMadre() {
               "Sera utilizada para el pedido: " + to_string(this->numeroDePedidoActual));
     this->lockMasaMadre.liberarLock();
     return masaMadre;
+}
+
+void Maestro::entregarPedido(TipoDePedido tipoDePedido) {
+    PedidoTerminado pedidoTerminado;
+    pedidoTerminado.numeroDePedido = this->numeroDePedidoActual;
+    pedidoTerminado.tipoDePedido = tipoDePedido;
+    LOG_DEBUG(string(this->cadenaIdentificadora) + " con id: " + to_string(getpid())  + ". Entregando "
+              "pedido terminado numero: " + to_string(this->numeroDePedidoActual));
+    this->comunicacionConRepartidores.escribir(static_cast<void*>(&pedidoTerminado), sizeof(PedidoTerminado));
 }
 
 

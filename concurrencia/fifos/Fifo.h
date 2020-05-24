@@ -15,14 +15,14 @@
 class Fifo {
 
 public:
-    Fifo(const std::string nombre);
+    Fifo(const char* nombre);
     virtual ~Fifo();
     virtual void abrir() = 0;
     void cerrar();
     void eliminar() const;
 
 protected:
-    std::string nombre;
+    const char* nombre;
     int fd;
 };
 
