@@ -28,20 +28,20 @@ Panaderia::Panaderia(Config config) {
     Recepcionista recepcionista;
     this->generarMaestroDeMasaMadre(canalMaestroAMaestroMasaMadre, canalMaestroMasaMadreAMaestro);
     this->generarRepartidor();
-    this->generarEntidad(&recepcionista, config.obtenerRecepcionistas(), this->canalConRecepcionistas,
-                         canalRecepcionistasMaestroPanadero, canalRecepcionistaMaestroPizzero);
+    this->generarEmpleado(&recepcionista, config.obtenerRecepcionistas(), this->canalConRecepcionistas,
+                          canalRecepcionistasMaestroPanadero, canalRecepcionistaMaestroPizzero);
     MaestroPanadero maestroPanadero;
-    this->generarEntidad(&maestroPanadero, config.obtenerMaestrosPanaderos(), canalRecepcionistasMaestroPanadero,
-                         canalMaestroAMaestroMasaMadre, canalMaestroMasaMadreAMaestro);
+    this->generarEmpleado(&maestroPanadero, config.obtenerMaestrosPanaderos(), canalRecepcionistasMaestroPanadero,
+                          canalMaestroAMaestroMasaMadre, canalMaestroMasaMadreAMaestro);
     MaestroPizzero maestroPizzero;
-    this->generarEntidad(&maestroPizzero, config.obtenerMaestrosPizzeros(), canalRecepcionistaMaestroPizzero,
-                         canalMaestroAMaestroMasaMadre, canalMaestroMasaMadreAMaestro);
+    this->generarEmpleado(&maestroPizzero, config.obtenerMaestrosPizzeros(), canalRecepcionistaMaestroPizzero,
+                          canalMaestroAMaestroMasaMadre, canalMaestroMasaMadreAMaestro);
 }
 
 Panaderia::~Panaderia() {
 }
 
-void Panaderia::generarEntidad(Empleado *empleado, int cantidad, Pipe primerPipe, Pipe segundoPipe, Pipe tercerPipe) {
+void Panaderia::generarEmpleado(Empleado *empleado, int cantidad, Pipe primerPipe, Pipe segundoPipe, Pipe tercerPipe) {
     for(int i = 1; i <= cantidad; i++){
         pid_t id = fork();
         if(id == 0){
@@ -86,7 +86,9 @@ void Panaderia::notificarFinalizacion() {
     }
     int status;
     while ((wait(&status)) > 0){
-        if(WEXITSTATUS(status) != 0) this->iniciarEvacuacion();
+        if(WEXITSTATUS(status) != 0){
+            this->iniciarEvacuacion();
+        }
     }
     this->liberarRecursos();
 }
@@ -98,7 +100,7 @@ void Panaderia::comenzarSimulacion() {
         pedido.tipoDePedido = tipoDePedido;
         pedido.numeroDePedido = i;
         pedido.contenidoDePedido = LLENO;
-        LOG_DEBUG("Depositando pedido con id: " + to_string(i) + ". El pedido es de: " + TIPO_A_CADENA[tipoDePedido]);
+        LOG_INFO("Depositando pedido con id: " + to_string(i) + ". El pedido es de: " + TIPO_A_CADENA[tipoDePedido]);
         this->canalConRecepcionistas.escribir(static_cast<const void*>(&pedido), sizeof(Pedido));
     }
 
@@ -125,7 +127,8 @@ void Panaderia::liberarRecursos() {
 
 void Panaderia::iniciarEvacuacion() {
     LOG_DEBUG("¡Fuego en la panaderia! Se procedera a evacuar a los empleados.");
-    for(unsigned int i = 1; i <= this->empleados->size(); i++){
+    int cantidadDeEmpleados = this->empleados->size();
+    for(int i = 1; i <= cantidadDeEmpleados; i++){
         pid_t empleado = empleados->back();
         empleados->pop_back();
         LOG_DEBUG("Enviando aviso de evacuacion a proceso con id: " + to_string(empleado));

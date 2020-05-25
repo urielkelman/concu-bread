@@ -26,5 +26,4 @@ protected:
     int fd;
 };
 
-
 #endif //CONCU_BREAD_FIFO_H

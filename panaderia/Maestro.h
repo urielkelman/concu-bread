@@ -15,7 +15,7 @@
 
 typedef char NotificacionMaestro;
 
-struct PedidoTerminado {
+struct CajaConPedido {
     int numeroDePedido;
     TipoDePedido tipoDePedido;
 };

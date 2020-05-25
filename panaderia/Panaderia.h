@@ -36,7 +36,7 @@ private:
     Pipe canalConRecepcionistas;
     vector<pid_t> *empleados;
 
-    void generarEntidad(Empleado *empleado, int cantidad, Pipe primerPipe, Pipe segundoPipe, Pipe tercerPipe);
+    void generarEmpleado(Empleado *empleado, int cantidad, Pipe primerPipe, Pipe segundoPipe, Pipe tercerPipe);
     TipoDePedido generarPedidoAleatoriamente();
     void notificarFinalizacion();
     void enviarPedidosVacios(TipoDePedido tipoDePedido, int cantidadDePedidos);

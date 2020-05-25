@@ -22,6 +22,10 @@ public:
         LOG_DEBUG("Inicializando handler SIGINT para panaderia.");
         panaderia->iniciarEvacuacion();
         panaderia->liberarRecursos();
+        int status;
+        while ((wait(&status)) > 0);
+        LOG_DEBUG("Simulacion terminada por fuego en la panaderia.");
+        Logging::Finalizar();
         exit(0);
     }
 };

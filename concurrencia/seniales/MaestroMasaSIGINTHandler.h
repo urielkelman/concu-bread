@@ -22,7 +22,7 @@ public:
     int handleSignal(int signum){
         LOG_DEBUG("Inicializando SIGINT handler para maestro de la masa madre");
         this->maestroMasaMadre->liberarRecursosDeComunicacion();
-        LOG_DEBUG("Evacuando!!!");
+        LOG_DEBUG("Evacuando maestro de la masa madre!!!");
         exit(-1);
     }
 };

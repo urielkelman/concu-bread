@@ -116,12 +116,12 @@ MasaMadre Maestro::retirarMasaMadre() {
 }
 
 void Maestro::entregarPedido(TipoDePedido tipoDePedido) {
-    PedidoTerminado pedidoTerminado;
+    CajaConPedido pedidoTerminado;
     pedidoTerminado.numeroDePedido = this->numeroDePedidoActual;
     pedidoTerminado.tipoDePedido = tipoDePedido;
     LOG_DEBUG(string(this->cadenaIdentificadora) + " con id: " + to_string(getpid())  + ". Entregando "
               "pedido terminado numero: " + to_string(this->numeroDePedidoActual));
-    this->comunicacionConRepartidores.escribir(static_cast<void*>(&pedidoTerminado), sizeof(PedidoTerminado));
+    this->comunicacionConRepartidores.escribir(static_cast<void*>(&pedidoTerminado), sizeof(CajaConPedido));
 }
 
 

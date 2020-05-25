@@ -50,4 +50,4 @@ add_executable(concu_bread
         panaderia/Recepcionista.h
         panaderia/Repartidor.cpp
         panaderia/Repartidor.h
-        main.cpp)
+        main.cpp concurrencia/seniales/RepartidorSIGINTHandler.h)

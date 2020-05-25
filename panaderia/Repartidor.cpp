@@ -3,6 +3,8 @@
 //
 
 #include "Repartidor.h"
+#include "../concurrencia/seniales/RepartidorSIGINTHandler.h"
+#include "../concurrencia/seniales/SignalHandler.h"
 
 Repartidor::Repartidor() : comunicacionConMaestros("/tmp/fifo-repartidores") {
     LOG_DEBUG("Inicializando repartidor. Id de proceso: " + to_string(getpid()));
@@ -13,18 +15,21 @@ Repartidor::~Repartidor() {
 }
 
 void Repartidor::escucharPorPedidosTerminados() {
+    RepartidorSIGINTHandler repartidorSigintHandler(this);
+    SignalHandler::getInstance()->registrarHandler(SIGINT, &repartidorSigintHandler);
+
     this->comunicacionConMaestros.abrir();
     while(this->continuarRepartiendo){
         LOG_DEBUG("Esperando por un pedido listo para entregar");
-        PedidoTerminado pedidoTerminado;
-        this->comunicacionConMaestros.leer(static_cast<void*>(&pedidoTerminado), sizeof(PedidoTerminado));
+        CajaConPedido pedidoTerminado;
+        this->comunicacionConMaestros.leer(static_cast<void*>(&pedidoTerminado), sizeof(CajaConPedido));
         this->entregarPedido(pedidoTerminado);
     }
     this->liberarRecursos();
     exit(0);
 }
 
-void Repartidor::entregarPedido(PedidoTerminado pedidoTerminado) {
+void Repartidor::entregarPedido(CajaConPedido pedidoTerminado) {
     if(pedidoTerminado.tipoDePedido == NOTIFICACION_DE_CIERRE) {
         LOG_DEBUG("Ha llegado notificacion de cierre. Procedere a subirme a mi moto e irme a mi casa.");
         this->continuarRepartiendo = false;
@@ -40,6 +45,7 @@ void Repartidor::entregarPedido(PedidoTerminado pedidoTerminado) {
 
 
 void Repartidor::liberarRecursos() {
+    SignalHandler::destruir();
     LOG_DEBUG("Cerrando comunicacion con maestros.");
     this->comunicacionConMaestros.cerrar();
     this->comunicacionConMaestros.eliminar();

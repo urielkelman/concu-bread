@@ -15,14 +15,14 @@ public:
     Repartidor();
     ~Repartidor();
 
+    void liberarRecursos();
 private:
     FifoLectura comunicacionConMaestros;
     bool continuarRepartiendo = true;
     int TIEMPO_EN_ENTREGA = 2;
 
     void escucharPorPedidosTerminados();
-    void entregarPedido(PedidoTerminado pedidoTerminado);
-    void liberarRecursos();
+    void entregarPedido(CajaConPedido pedidoTerminado);
 };
 
 
