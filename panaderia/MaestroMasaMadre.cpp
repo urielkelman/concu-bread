@@ -9,8 +9,8 @@
 #include "../concurrencia/seniales/SignalHandler.h"
 
 MaestroMasaMadre::MaestroMasaMadre(Pipe comunicacionPedidosDeMasaMadre, Pipe comunicacionEntregaDeMasaMadre, int cantidadDeCocineros) :
-lockComunicacionPedidosDeMasaMadre("maestromasamadre.lock"),
-lockPedidosVigentes("pedidosvigentes.lock"),
+lockComunicacionPedidosDeMasaMadre("locks/maestromasamadre.lock"),
+lockPedidosVigentes("locks/pedidosvigentes.lock"),
 pedidosVigentes(MemoriaCompartida<int>('A')),
 comunicacionPedidosDeMasaMadre(comunicacionPedidosDeMasaMadre),
 comunicacionEntregaDeMasaMadre(comunicacionEntregaDeMasaMadre),
@@ -84,7 +84,7 @@ bool MaestroMasaMadre::hayPedidosEnEspera() {
 
 void MaestroMasaMadre::alimentarMasaMadre() {
     LOG_DEBUG("Alimentando masa madre. Incrementando alimento en una unidad a: " + to_string(this->masaMadre.cantidadDeAlimento + 1));
-    sleep(1);
+    usleep(10000);
     this->masaMadre.cantidadDeAlimento += 1;
 }
 

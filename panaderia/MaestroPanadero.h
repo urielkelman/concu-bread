@@ -12,7 +12,7 @@ public:
     MaestroPanadero();
     ~MaestroPanadero();
 private:
-    int TIEMPO_COCCION_PAN = 3;
+    int TIEMPO_COCCION_PAN = 30000;
 
     TipoDePedido cocinar(MasaMadre masaMadre) override;
 };

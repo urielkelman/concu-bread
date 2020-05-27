@@ -9,7 +9,7 @@
 #include "../concurrencia/seniales/EmpleadoSIGINTHandler.h"
 #include "../concurrencia/seniales/SignalHandler.h"
 
-Recepcionista::Recepcionista() : lockComunicacionConPanaderia("recepcionista.lock"){
+Recepcionista::Recepcionista() : lockComunicacionConPanaderia("locks/recepcionista.lock"){
     this->cadenaIdentificadora = "Recepcionista";
 
 }

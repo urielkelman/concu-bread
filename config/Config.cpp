@@ -21,7 +21,11 @@ void Config::configurarRecepcionistas(int recepcionistas) {
 }
 
 void Config::configurarCorrectitud(bool correctitud) {
-    this->correctitud = correctitud;
+    if(this->recepcionistas < 1 || this->maestrosPizzeros < 1 || this->maestrosPanaderos < 1){
+        this->correctitud = false;
+    } else {
+        this->correctitud = correctitud;
+    }
 }
 
 bool Config::fueCorrectamenteIngresada() {

@@ -14,7 +14,7 @@ NivelDeLogging Logging::nivelDeLogging;
 vector<string> Logging::nivelLogStrings = {"INFO", "DEBUG"};
 int Logging::numeroMagicoDePadding = 30;
 string Logging::ruta = "log.txt";
-LockFile Logging::lock = LockFile(Logging::ruta.c_str());
+LockFile Logging::lock = LockFile((Logging::ruta + "-" + obtenerTiempo()).c_str());
 
 NivelDeLogging Logging::ObtenerNivelDeLogging(string nivelDeLog) {
     if(nivelLogStrings[INFO] == nivelDeLog){
@@ -43,11 +43,11 @@ void Logging::Loggear(NivelDeLogging _nivelDeLogging, string mensaje, string pat
         linea << archivoMasLineaPaddeado;
         linea << time << " | ";
         linea << mensaje << "\n";
-        string l = linea.str();
-        const char* w = l.c_str();
+        string lineaString = linea.str();
+        const char* lineaArchivo = lineaString.c_str();
         lock.tomarLock();
-        cout << l;
-        lock.escribir(w, l.length());
+        cout << lineaString;
+        lock.escribir(lineaArchivo, lineaString.length());
         lock.liberarLock();
     }
 }

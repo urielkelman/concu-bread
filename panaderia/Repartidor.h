@@ -19,7 +19,7 @@ public:
 private:
     FifoLectura comunicacionConMaestros;
     bool continuarRepartiendo = true;
-    int TIEMPO_EN_ENTREGA = 2;
+    int TIEMPO_EN_ENTREGA = 20000;
 
     void escucharPorPedidosTerminados();
     void entregarPedido(CajaConPedido pedidoTerminado);

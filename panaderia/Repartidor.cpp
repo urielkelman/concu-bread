@@ -36,7 +36,7 @@ void Repartidor::entregarPedido(CajaConPedido pedidoTerminado) {
     } else {
         LOG_DEBUG("Debo entregar el pedido de: " + Panaderia::TIPO_A_CADENA[pedidoTerminado.tipoDePedido] + ", "
                    "cuyo numero es: " + to_string(pedidoTerminado.numeroDePedido));
-        sleep(this->TIEMPO_EN_ENTREGA);
+        usleep(this->TIEMPO_EN_ENTREGA);
         LOG_INFO("Se entrego el pedido numero: " + to_string(pedidoTerminado.numeroDePedido) + ". Dicho pedido era "
                  "de " + Panaderia::TIPO_A_CADENA[pedidoTerminado.tipoDePedido]);
     }

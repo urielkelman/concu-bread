@@ -8,6 +8,10 @@
 
 #include "../logging/Logging.h"
 
+/**
+ * Clase que encapsula toda la informacion contenida en la configuracion inicial que introduce el usuario.
+ * Posee todos los getters y setters para cumplir con su funcion. Ademas, contiene un atributo y su getter
+ * correspondiente para determinar si el ingreso de la configuracion por parte del usuario fue correcta o no.*/
 class Config {
 public:
     Config();

@@ -13,7 +13,8 @@
 using namespace std;
 
 enum NivelDeLogging {INFO = 0, DEBUG = 1};
-
+/**
+ * Macros que son exportadas y permiten ser invocadas para utilizar el metodo estatico loggear de la clase Logging. */
 #define LOG_INFO(mensaje) Logging::Loggear(INFO, mensaje, __FILE__, __LINE__)
 #define LOG_DEBUG(mensaje) Logging::Loggear(DEBUG, mensaje, __FILE__, __LINE__)
 
@@ -22,8 +23,11 @@ class Logging {
 public:
     static NivelDeLogging ObtenerNivelDeLogging(string nivelDeLog);
 
+    /** Inicializa el log seteando el nivel de logging introducido por el usuario.*/
     static void Inicializar(NivelDeLogging nivelDeLogging);
 
+    /** Escribe el mensaje que recibe como  el archivo acorde al nivel de log especificado. Soporta escrituras
+     * concurrentes, ya que antes de escribir el mensaje adquiere un lock sobre el archivo a escribir */
     static void Loggear(NivelDeLogging nivelDeLogging, string mensaje, string archivo, long linea);
 
     static void Finalizar();

@@ -66,7 +66,7 @@ void Panaderia::enviarPedidosVacios(TipoDePedido tipoDePedido, int cantidadDePed
         pedido.tipoDePedido = tipoDePedido;
         pedido.contenidoDePedido = VACIO;
         pedido.numeroDePedido = -i;
-        LOG_DEBUG("Enviando notificacion" + to_string(i) + "de finalizacion de pedidos de " + TIPO_A_CADENA[tipoDePedido] + " a recepcionistas.");
+        LOG_DEBUG("Enviando notificacion " + to_string(i) + " de finalizacion de pedidos de " + TIPO_A_CADENA[tipoDePedido] + " a recepcionistas.");
         this->canalConRecepcionistas.escribir(static_cast<const void*>(&pedido), sizeof(Pedido));
     }
 }
@@ -81,7 +81,7 @@ void Panaderia::notificarFinalizacion() {
         pedido.contenidoDePedido = VACIO;
         pedido.tipoDePedido = NOTIFICACION_DE_CIERRE;
         pedido.numeroDePedido = -i;
-        LOG_DEBUG("Enviando notificacion " + to_string(i) + " de cierre de panaderia.");
+        LOG_DEBUG("Enviando notificacion " + to_string(i) + " de cierre de panaderia a recepcionistas.");
         this->canalConRecepcionistas.escribir(static_cast<const void*>(&pedido), sizeof(Pedido));
     }
     int status;

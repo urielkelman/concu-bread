@@ -9,8 +9,8 @@
 
 Maestro::Maestro(const char* nombreLockComunicacionConRecepcionistas) :
         lockComunicacionConRecepcionistas(nombreLockComunicacionConRecepcionistas),
-        lockPedidosVigentes("pedidosvigentes.lock"),
-        lockMasaMadre("masamadre.lock"),
+        lockPedidosVigentes("locks/pedidosvigentes.lock"),
+        lockMasaMadre("locks/masamadre.lock"),
         pedidosVigentes(MemoriaCompartida<int>('A')),
         comunicacionConRepartidor("/tmp/fifo-repartidores"){
 

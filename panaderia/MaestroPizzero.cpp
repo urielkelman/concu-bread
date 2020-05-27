@@ -4,7 +4,7 @@
 
 #include "MaestroPizzero.h"
 
-MaestroPizzero::MaestroPizzero() : Maestro("maestroPizzero.lock") {
+MaestroPizzero::MaestroPizzero() : Maestro("locks/maestroPizzero.lock") {
     this->cadenaIdentificadora = "Maestro pizzero";
 }
 
@@ -16,7 +16,7 @@ TipoDePedido MaestroPizzero::cocinar(MasaMadre) {
     int tiempoDeCoccionAleatoria = this->obtenerTiempoDeCoccionAleatoria();
     LOG_DEBUG("Maestro pizzero con id: " + to_string(getpid()) + ". Comenzando a preparar pizza. "
               "Tiempo de coccion: " + to_string(tiempoDeCoccionAleatoria));
-    sleep(tiempoDeCoccionAleatoria);
+    usleep(tiempoDeCoccionAleatoria * 10000);
     LOG_DEBUG("Maestro pizzero con id: " + to_string(getpid()) + ". Pizza preparada.");
     return PIZZA;
 }
