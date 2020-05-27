@@ -33,19 +33,14 @@ MaestroMasaMadre::~MaestroMasaMadre() {
 
 void MaestroMasaMadre::esperarPorNotificaciones() {
     this->comunicacionRepartidor.abrir();
-    while(this->continuarProcesandoPedidos){        /*
-         * TODO: Ojo que la segunda condicion obliga a tener una masa madre disponible mientras que puede no necesitarse,
-         * TODO: ya que la notificacion puede ser de cierre.
-         */
-        if(this->hayPedidosEnEspera()){
-            if(this->hayRacionDeMasaDisponible()){
-                char notificacion[1];
-                this->comunicacionPedidosDeMasaMadre.leer(&notificacion, sizeof(NotificacionMaestro));
-                this->procesarNotificacion(*notificacion);
-            }
-            this->alimentarMasaMadre();
+    while(this->continuarProcesandoPedidos){
+        if(this->hayPedidosEnEspera() && this->hayRacionDeMasaDisponible()){
+            char notificacion[1];
+            this->comunicacionPedidosDeMasaMadre.leer(&notificacion, sizeof(NotificacionMaestro));
+            this->procesarNotificacion(*notificacion);
         }
 
+        this->alimentarMasaMadre();
     }
 
     this->liberarRecursosDeComunicacion();
