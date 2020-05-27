@@ -37,16 +37,19 @@ void MaestroMasaMadre::esperarPorNotificaciones() {
          * TODO: Ojo que la segunda condicion obliga a tener una masa madre disponible mientras que puede no necesitarse,
          * TODO: ya que la notificacion puede ser de cierre.
          */
-        if(this->hayPedidosEnEspera() && this->hayRacionDeMasaDisponible()){
-            char notificacion[1];
-            this->comunicacionPedidosDeMasaMadre.leer(&notificacion, sizeof(NotificacionMaestro));
-            this->procesarNotificacion(*notificacion);
+        if(this->hayPedidosEnEspera()){
+            if(this->hayRacionDeMasaDisponible()){
+                char notificacion[1];
+                this->comunicacionPedidosDeMasaMadre.leer(&notificacion, sizeof(NotificacionMaestro));
+                this->procesarNotificacion(*notificacion);
+            }
+            this->alimentarMasaMadre();
         }
-        this->alimentarMasaMadre();
+
     }
 
-
     this->liberarRecursosDeComunicacion();
+    exit(0);
 }
 
 void MaestroMasaMadre::procesarNotificacion(char notificacion) {
@@ -77,7 +80,7 @@ void MaestroMasaMadre::procesarNotificacion(char notificacion) {
 bool MaestroMasaMadre::hayPedidosEnEspera() {
     this->lockPedidosVigentes.tomarLock();
     int totalPedidosVigentes = this->pedidosVigentes.leer();
-    LOG_DEBUG("Se leyeron el total de " + to_string(totalPedidosVigentes) + " pedidos vigentes.");
+    //LOG_DEBUG("Se leyeron el total de " + to_string(totalPedidosVigentes) + " pedidos vigentes.");
     this->lockPedidosVigentes.liberarLock();
     return totalPedidosVigentes > 0;
 }
@@ -107,7 +110,6 @@ void MaestroMasaMadre::liberarRecursosDeComunicacion() {
     LOG_DEBUG("Cerrando memoria compartida de pedidos vigentes");
     this->pedidosVigentes.liberar();
 
-    exit(0);
 }
 
 void MaestroMasaMadre::avisarCierreARepartidor() {

@@ -85,15 +85,20 @@ void Panaderia::notificarFinalizacion() {
         this->canalConRecepcionistas.escribir(static_cast<const void*>(&pedido), sizeof(Pedido));
     }
     int status;
+    bool seEvacuoPanaderia = false;
     while ((wait(&status)) > 0){
-        if(WEXITSTATUS(status) != 0){
+        if(WEXITSTATUS(status) != 0 && !seEvacuoPanaderia){
             this->iniciarEvacuacion();
+            seEvacuoPanaderia = true;
         }
     }
     this->liberarRecursos();
 }
 
 void Panaderia::comenzarSimulacion() {
+    string aux;
+    cout << "Presione una tecla y enter para comenzar \n";
+    cin >> aux;
     for(int i = 1; i <= this->config.obtenerCantidadDePedidos(); i++){
         Pedido pedido;
         TipoDePedido tipoDePedido = this->generarPedidoAleatoriamente();
@@ -142,7 +147,8 @@ void Panaderia::generarRepartidor() {
     if(id == 0){
         delete this->empleados;
         Repartidor repartidor;
-    } else {
+    }
+    else {
         this->empleados->push_back(id);
     }
 }
