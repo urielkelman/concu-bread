@@ -37,7 +37,7 @@ private:
     Pipe comunicacionConMaestroMasaMadre;
     Pipe recepcionMasaMadre;
     MemoriaCompartida<int> pedidosVigentes;
-    FifoEscritura comunicacionConRepartidores;
+    FifoEscritura comunicacionConRepartidor;
     int numeroDePedidoActual = 0;
 
     void procesarPedido(Pedido pedido);

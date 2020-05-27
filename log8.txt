@@ -23152,3 +23152,229 @@
 [DEBUG] Panaderia.cpp:124             15:51:24 | Cerrando canal de comunicacion con recepcionistas.
 [INFO] main.cpp:56                   15:51:24 | Simulacion terminada.
 [INFO] Logging.cpp:67                15:51:24 | Cerrando archivo de log.
+[INFO] Logging.cpp:31                13:07:12 | Inicializando log.
+[INFO] main.cpp:53                   13:07:12 | Configuracion correctamente introducida.
+[DEBUG] Panaderia.cpp:20              13:07:12 | Inicializando panaderia. Mi id de proceso es: 25004
+[DEBUG] Repartidor.cpp:10             13:07:12 | Inicializando repartidor. Id de proceso: 25006
+[DEBUG] MaestroMasaMadre.cpp:20       13:07:12 | Registrando maestro de la masa madre. Mi id de proceso es: 25005, y el de mi padre es: 25004
+[DEBUG] Empleado.cpp:11               13:07:12 | Registrando Recepcionista numero: 1. Mi id de proceso es: 25007, y el de mi padre: 25004
+[DEBUG] MaestroMasaMadre.cpp:26       13:07:12 | Inicializando memoria compartida de pedidos vigentes en 0.
+[DEBUG] Empleado.cpp:11               13:07:12 | Registrando Recepcionista numero: 2. Mi id de proceso es: 25008, y el de mi padre: 25004
+[DEBUG] Repartidor.cpp:23             13:07:12 | Esperando por un pedido listo para entregar
+[DEBUG] MaestroMasaMadre.cpp:80       13:07:12 | Se leyeron el total de 0 pedidos vigentes.
+[DEBUG] Recepcionista.cpp:25          13:07:12 | Recepcionista con id: 25007. Lock adquirido para leer del pipe de comunicacion con la panaderia.
+[DEBUG] MaestroMasaMadre.cpp:86       13:07:12 | Alimentando masa madre. Incrementando alimento en una unidad a: 1
+[DEBUG] Empleado.cpp:11               13:07:12 | Registrando Maestro panadero numero: 1. Mi id de proceso es: 25009, y el de mi padre: 25004
+[DEBUG] Empleado.cpp:11               13:07:12 | Registrando Maestro panadero numero: 2. Mi id de proceso es: 25010, y el de mi padre: 25004
+[DEBUG] Maestro.cpp:34                13:07:12 | Maestro panadero con id: 25009. Lock adquirido para leer del pipe de comunicacion con los recepcionistas.
+[INFO] Panaderia.cpp:103             13:07:12 | Depositando pedido con id: 1. El pedido es de: PIZZA
+[DEBUG] Empleado.cpp:11               13:07:12 | Registrando Maestro pizzero numero: 2. Mi id de proceso es: 25012, y el de mi padre: 25004
+[INFO] Panaderia.cpp:103             13:07:12 | Depositando pedido con id: 2. El pedido es de: PAN
+[DEBUG] Recepcionista.cpp:28          13:07:12 | Recepcionista con id: 25007. Llego un pedido de PIZZA. Numero de pedido: 1
+[DEBUG] Empleado.cpp:11               13:07:12 | Registrando Maestro pizzero numero: 1. Mi id de proceso es: 25011, y el de mi padre: 25004
+[INFO] Panaderia.cpp:103             13:07:12 | Depositando pedido con id: 3. El pedido es de: PAN
+[DEBUG] Recepcionista.cpp:25          13:07:12 | Recepcionista con id: 25008. Lock adquirido para leer del pipe de comunicacion con la panaderia.
+[DEBUG] Maestro.cpp:34                13:07:12 | Maestro pizzero con id: 25012. Lock adquirido para leer del pipe de comunicacion con los recepcionistas.
+[DEBUG] Recepcionista.cpp:59          13:07:12 | Recepcionista con id: 25007. Entregando pedido de pizza con id: 1
+[INFO] Panaderia.cpp:103             13:07:12 | Depositando pedido con id: 4. El pedido es de: PAN
+[DEBUG] Maestro.cpp:38                13:07:12 | Maestro pizzero con id: 25012. Se recibio un pedido LLENO de PIZZA. El numero de pedido es: 1
+[DEBUG] Recepcionista.cpp:28          13:07:12 | Recepcionista con id: 25008. Llego un pedido de PAN. Numero de pedido: 2
+[DEBUG] Maestro.cpp:64                13:07:12 | Maestro pizzero con id: 25012. Se proceso pedido con id 1. Solicitando masa madre al gran maestro.
+[DEBUG] Maestro.cpp:34                13:07:12 | Maestro pizzero con id: 25011. Lock adquirido para leer del pipe de comunicacion con los recepcionistas.
+[DEBUG] Panaderia.cpp:69              13:07:12 | Enviando notificacion1de finalizacion de pedidos de PAN a recepcionistas.
+[DEBUG] Recepcionista.cpp:55          13:07:12 | Recepcionista con id: 25008. Entregando pedido de pan con id: 2
+[DEBUG] Recepcionista.cpp:25          13:07:12 | Recepcionista con id: 25007. Lock adquirido para leer del pipe de comunicacion con la panaderia.
+[DEBUG] Maestro.cpp:71                13:07:12 | Maestro pizzero con id: 25012. Adquirido lock para leer la memoria compartida de pedidos vigentes.
+[DEBUG] Panaderia.cpp:69              13:07:12 | Enviando notificacion2de finalizacion de pedidos de PAN a recepcionistas.
+[DEBUG] Recepcionista.cpp:28          13:07:12 | Recepcionista con id: 25007. Llego un pedido de PAN. Numero de pedido: 3
+[DEBUG] Maestro.cpp:38                13:07:12 | Maestro panadero con id: 25009. Se recibio un pedido LLENO de PAN. El numero de pedido es: 2
+[DEBUG] Recepcionista.cpp:55          13:07:12 | Recepcionista con id: 25007. Entregando pedido de pan con id: 3
+[DEBUG] Maestro.cpp:74                13:07:12 | Maestro pizzero con id: 25012. Se leyeron 0 pedidos vigentes. Se escriben 1 pedidos vigentes.
+[DEBUG] Panaderia.cpp:69              13:07:12 | Enviando notificacion1de finalizacion de pedidos de PIZZA a recepcionistas.
+[DEBUG] Maestro.cpp:64                13:07:12 | Maestro panadero con id: 25009. Se proceso pedido con id 2. Solicitando masa madre al gran maestro.
+[DEBUG] Recepcionista.cpp:25          13:07:12 | Recepcionista con id: 25008. Lock adquirido para leer del pipe de comunicacion con la panaderia.
+[DEBUG] Maestro.cpp:34                13:07:12 | Maestro panadero con id: 25010. Lock adquirido para leer del pipe de comunicacion con los recepcionistas.
+[DEBUG] Recepcionista.cpp:28          13:07:12 | Recepcionista con id: 25008. Llego un pedido de PAN. Numero de pedido: 4
+[DEBUG] Maestro.cpp:71                13:07:12 | Maestro panadero con id: 25009. Adquirido lock para leer la memoria compartida de pedidos vigentes.
+[DEBUG] Maestro.cpp:107               13:07:12 | Maestro pizzero con id: 25012. Adquirido lock para leer el pipe y retirar la masa madre.
+[DEBUG] Maestro.cpp:74                13:07:12 | Maestro panadero con id: 25009. Se leyeron 1 pedidos vigentes. Se escriben 2 pedidos vigentes.
+[DEBUG] Panaderia.cpp:69              13:07:12 | Enviando notificacion2de finalizacion de pedidos de PIZZA a recepcionistas.
+[DEBUG] Recepcionista.cpp:25          13:07:12 | Recepcionista con id: 25007. Lock adquirido para leer del pipe de comunicacion con la panaderia.
+[DEBUG] Maestro.cpp:38                13:07:12 | Maestro panadero con id: 25010. Se recibio un pedido LLENO de PAN. El numero de pedido es: 3
+[DEBUG] Recepcionista.cpp:55          13:07:12 | Recepcionista con id: 25008. Entregando pedido de pan con id: 4
+[DEBUG] Panaderia.cpp:84              13:07:12 | Enviando notificacion 1 de cierre de panaderia.
+[DEBUG] Recepcionista.cpp:28          13:07:12 | Recepcionista con id: 25007. Llego un pedido de PAN. Numero de pedido: -1
+[DEBUG] Maestro.cpp:64                13:07:12 | Maestro panadero con id: 25010. Se proceso pedido con id 3. Solicitando masa madre al gran maestro.
+[DEBUG] Panaderia.cpp:84              13:07:12 | Enviando notificacion 2 de cierre de panaderia.
+[DEBUG] Recepcionista.cpp:55          13:07:12 | Recepcionista con id: 25007. Entregando pedido de pan con id: -1
+[DEBUG] Recepcionista.cpp:25          13:07:12 | Recepcionista con id: 25008. Lock adquirido para leer del pipe de comunicacion con la panaderia.
+[DEBUG] Maestro.cpp:71                13:07:12 | Maestro panadero con id: 25010. Adquirido lock para leer la memoria compartida de pedidos vigentes.
+[DEBUG] Recepcionista.cpp:28          13:07:12 | Recepcionista con id: 25008. Llego un pedido de PAN. Numero de pedido: -2
+[DEBUG] Maestro.cpp:74                13:07:12 | Maestro panadero con id: 25010. Se leyeron 2 pedidos vigentes. Se escriben 3 pedidos vigentes.
+[DEBUG] Recepcionista.cpp:25          13:07:12 | Recepcionista con id: 25007. Lock adquirido para leer del pipe de comunicacion con la panaderia.
+[DEBUG] Recepcionista.cpp:55          13:07:12 | Recepcionista con id: 25008. Entregando pedido de pan con id: -2
+[DEBUG] Recepcionista.cpp:28          13:07:12 | Recepcionista con id: 25007. Llego un pedido de PIZZA. Numero de pedido: -1
+[DEBUG] Recepcionista.cpp:59          13:07:12 | Recepcionista con id: 25007. Entregando pedido de pizza con id: -1
+[DEBUG] Recepcionista.cpp:25          13:07:12 | Recepcionista con id: 25008. Lock adquirido para leer del pipe de comunicacion con la panaderia.
+[DEBUG] Maestro.cpp:38                13:07:12 | Maestro pizzero con id: 25011. Se recibio un pedido VACIO de PIZZA. El numero de pedido es: -1
+[DEBUG] Recepcionista.cpp:28          13:07:12 | Recepcionista con id: 25008. Llego un pedido de PIZZA. Numero de pedido: -2
+[DEBUG] Maestro.cpp:59                13:07:12 | Maestro pizzero con id: 25011. Se proceso pedido con id -1. Procedo con la orden, mi dia laboral ha terminado. Me voy a mi casa, no sin antes avisar al maestro de la masa madre.
+[DEBUG] Recepcionista.cpp:59          13:07:12 | Recepcionista con id: 25008. Entregando pedido de pizza con id: -2
+[DEBUG] Recepcionista.cpp:25          13:07:12 | Recepcionista con id: 25007. Lock adquirido para leer del pipe de comunicacion con la panaderia.
+[DEBUG] Maestro.cpp:71                13:07:12 | Maestro pizzero con id: 25011. Adquirido lock para leer la memoria compartida de pedidos vigentes.
+[DEBUG] Recepcionista.cpp:28          13:07:12 | Recepcionista con id: 25007. Llego un pedido de NOTIFICACION_DE_CIERRE. Numero de pedido: -1
+[DEBUG] Maestro.cpp:74                13:07:12 | Maestro pizzero con id: 25011. Se leyeron 3 pedidos vigentes. Se escriben 4 pedidos vigentes.
+[DEBUG] Recepcionista.cpp:25          13:07:12 | Recepcionista con id: 25008. Lock adquirido para leer del pipe de comunicacion con la panaderia.
+[DEBUG] Maestro.cpp:88                13:07:12 | Maestro pizzero con id: 25011. Cerrando memoria compartida de pedidos vigentes
+[DEBUG] Recepcionista.cpp:33          13:07:12 | Recepcionista con id: 25007. Procedo con la orden, el dia de trabajo ha terminado. Voy a cerrarme e ir a mi casa.
+[DEBUG] Recepcionista.cpp:28          13:07:12 | Recepcionista con id: 25008. Llego un pedido de NOTIFICACION_DE_CIERRE. Numero de pedido: -2
+[DEBUG] Maestro.cpp:91                13:07:12 | Maestro pizzero con id: 25011. Cerrando comunicacion con los recepcionistas.
+[DEBUG] Recepcionista.cpp:67          13:07:12 | Recepcionista con id: 25007. Cerrando comunicacion con panaderia.
+[DEBUG] Recepcionista.cpp:33          13:07:12 | Recepcionista con id: 25008. Procedo con la orden, el dia de trabajo ha terminado. Voy a cerrarme e ir a mi casa.
+[DEBUG] Maestro.cpp:94                13:07:12 | Maestro pizzero con id: 25011. Cerrando comunicacion con el maestro de la masa madre.
+[DEBUG] Recepcionista.cpp:69          13:07:12 | Recepcionista con id: 25007. Cerrando comunicacion con maestros pizzeros.
+[DEBUG] Maestro.cpp:97                13:07:12 | Maestro pizzero con id: 25011. Cerrando recepcion de masa madre.
+[DEBUG] Recepcionista.cpp:71          13:07:12 | Recepcionista con id: 25007. Cerrando comunicacion con maestros panaderos.
+[DEBUG] Maestro.cpp:100               13:07:12 | Maestro pizzero con id: 25011. Cerrando comunicacion con repartidores.
+[DEBUG] Recepcionista.cpp:67          13:07:12 | Recepcionista con id: 25008. Cerrando comunicacion con panaderia.
+[DEBUG] Recepcionista.cpp:69          13:07:12 | Recepcionista con id: 25008. Cerrando comunicacion con maestros pizzeros.
+[DEBUG] Recepcionista.cpp:71          13:07:12 | Recepcionista con id: 25008. Cerrando comunicacion con maestros panaderos.
+[DEBUG] MaestroMasaMadre.cpp:80       13:07:13 | Se leyeron el total de 4 pedidos vigentes.
+[DEBUG] MaestroMasaMadre.cpp:86       13:07:13 | Alimentando masa madre. Incrementando alimento en una unidad a: 2
+[DEBUG] MaestroMasaMadre.cpp:80       13:07:14 | Se leyeron el total de 4 pedidos vigentes.
+[DEBUG] MaestroMasaMadre.cpp:86       13:07:14 | Alimentando masa madre. Incrementando alimento en una unidad a: 3
+[DEBUG] MaestroMasaMadre.cpp:80       13:07:15 | Se leyeron el total de 4 pedidos vigentes.
+[DEBUG] MaestroMasaMadre.cpp:54       13:07:15 | Procesando notificacion de pedido de masa madre.
+[DEBUG] MaestroMasaMadre.cpp:56       13:07:15 | Se deposita la racion de masa madre en el pipe de comunicacion con los cocineros.
+[DEBUG] MaestroMasaMadre.cpp:69       13:07:15 | Lock adquirido para disminuir cantidad de pedidos vigentes.
+[DEBUG] MaestroMasaMadre.cpp:72       13:07:15 | Se leyeron 4 pedidos vigentes. Se escriben 3 pedidos vigentes.
+[DEBUG] Maestro.cpp:110               13:07:15 | Maestro pizzero con id: 25012. Recibí masa madre para cocinar. Sera utilizada para el pedido: 1
+[DEBUG] MaestroMasaMadre.cpp:86       13:07:15 | Alimentando masa madre. Incrementando alimento en una unidad a: 1
+[DEBUG] MaestroPizzero.cpp:18         13:07:15 | Maestro pizzero con id: 25012. Comenzando a preparar pizza. Tiempo de coccion: 5
+[DEBUG] Maestro.cpp:107               13:07:15 | Maestro panadero con id: 25009. Adquirido lock para leer el pipe y retirar la masa madre.
+[DEBUG] MaestroMasaMadre.cpp:80       13:07:16 | Se leyeron el total de 3 pedidos vigentes.
+[DEBUG] MaestroMasaMadre.cpp:86       13:07:16 | Alimentando masa madre. Incrementando alimento en una unidad a: 2
+[DEBUG] MaestroMasaMadre.cpp:80       13:07:17 | Se leyeron el total de 3 pedidos vigentes.
+[DEBUG] MaestroMasaMadre.cpp:86       13:07:17 | Alimentando masa madre. Incrementando alimento en una unidad a: 3
+[DEBUG] MaestroMasaMadre.cpp:80       13:07:18 | Se leyeron el total de 3 pedidos vigentes.
+[DEBUG] MaestroMasaMadre.cpp:54       13:07:18 | Procesando notificacion de pedido de masa madre.
+[DEBUG] MaestroMasaMadre.cpp:56       13:07:18 | Se deposita la racion de masa madre en el pipe de comunicacion con los cocineros.
+[DEBUG] MaestroMasaMadre.cpp:69       13:07:18 | Lock adquirido para disminuir cantidad de pedidos vigentes.
+[DEBUG] MaestroMasaMadre.cpp:72       13:07:18 | Se leyeron 3 pedidos vigentes. Se escriben 2 pedidos vigentes.
+[DEBUG] Maestro.cpp:110               13:07:18 | Maestro panadero con id: 25009. Recibí masa madre para cocinar. Sera utilizada para el pedido: 2
+[DEBUG] MaestroMasaMadre.cpp:86       13:07:18 | Alimentando masa madre. Incrementando alimento en una unidad a: 1
+[DEBUG] Maestro.cpp:107               13:07:18 | Maestro panadero con id: 25010. Adquirido lock para leer el pipe y retirar la masa madre.
+[DEBUG] MaestroPanadero.cpp:15        13:07:18 | Maestro panadero con id: 25009. Comenzando a preparar pan caliente.
+[DEBUG] MaestroMasaMadre.cpp:80       13:07:19 | Se leyeron el total de 2 pedidos vigentes.
+[DEBUG] MaestroMasaMadre.cpp:86       13:07:19 | Alimentando masa madre. Incrementando alimento en una unidad a: 2
+[DEBUG] MaestroPizzero.cpp:20         13:07:20 | Maestro pizzero con id: 25012. Pizza preparada.
+[DEBUG] Maestro.cpp:120               13:07:20 | Maestro pizzero con id: 25012. Entregando pedido terminado numero: 1
+[DEBUG] Maestro.cpp:34                13:07:20 | Maestro pizzero con id: 25012. Lock adquirido para leer del pipe de comunicacion con los recepcionistas.
+[DEBUG] Repartidor.cpp:38             13:07:20 | Debo entregar el pedido de: PIZZA, cuyo numero es: 1
+[DEBUG] Maestro.cpp:38                13:07:20 | Maestro pizzero con id: 25012. Se recibio un pedido VACIO de PIZZA. El numero de pedido es: -2
+[DEBUG] Maestro.cpp:59                13:07:20 | Maestro pizzero con id: 25012. Se proceso pedido con id -2. Procedo con la orden, mi dia laboral ha terminado. Me voy a mi casa, no sin antes avisar al maestro de la masa madre.
+[DEBUG] Maestro.cpp:71                13:07:20 | Maestro pizzero con id: 25012. Adquirido lock para leer la memoria compartida de pedidos vigentes.
+[DEBUG] Maestro.cpp:74                13:07:20 | Maestro pizzero con id: 25012. Se leyeron 2 pedidos vigentes. Se escriben 3 pedidos vigentes.
+[DEBUG] Maestro.cpp:88                13:07:20 | Maestro pizzero con id: 25012. Cerrando memoria compartida de pedidos vigentes
+[DEBUG] Maestro.cpp:91                13:07:20 | Maestro pizzero con id: 25012. Cerrando comunicacion con los recepcionistas.
+[DEBUG] Maestro.cpp:94                13:07:20 | Maestro pizzero con id: 25012. Cerrando comunicacion con el maestro de la masa madre.
+[DEBUG] Maestro.cpp:97                13:07:20 | Maestro pizzero con id: 25012. Cerrando recepcion de masa madre.
+[DEBUG] Maestro.cpp:100               13:07:20 | Maestro pizzero con id: 25012. Cerrando comunicacion con repartidores.
+[DEBUG] MaestroMasaMadre.cpp:80       13:07:20 | Se leyeron el total de 3 pedidos vigentes.
+[DEBUG] MaestroMasaMadre.cpp:86       13:07:20 | Alimentando masa madre. Incrementando alimento en una unidad a: 3
+[DEBUG] MaestroPanadero.cpp:17        13:07:21 | Maestro panadero con id: 25009. Pan preparado.
+[DEBUG] Maestro.cpp:120               13:07:21 | Maestro panadero con id: 25009. Entregando pedido terminado numero: 2
+[DEBUG] MaestroMasaMadre.cpp:80       13:07:21 | Se leyeron el total de 3 pedidos vigentes.
+[DEBUG] Maestro.cpp:34                13:07:21 | Maestro panadero con id: 25009. Lock adquirido para leer del pipe de comunicacion con los recepcionistas.
+[DEBUG] MaestroMasaMadre.cpp:54       13:07:21 | Procesando notificacion de pedido de masa madre.
+[DEBUG] Maestro.cpp:38                13:07:21 | Maestro panadero con id: 25009. Se recibio un pedido LLENO de PAN. El numero de pedido es: 4
+[DEBUG] MaestroMasaMadre.cpp:56       13:07:21 | Se deposita la racion de masa madre en el pipe de comunicacion con los cocineros.
+[DEBUG] Maestro.cpp:64                13:07:21 | Maestro panadero con id: 25009. Se proceso pedido con id 4. Solicitando masa madre al gran maestro.
+[DEBUG] MaestroMasaMadre.cpp:69       13:07:21 | Lock adquirido para disminuir cantidad de pedidos vigentes.
+[DEBUG] MaestroMasaMadre.cpp:72       13:07:21 | Se leyeron 3 pedidos vigentes. Se escriben 2 pedidos vigentes.
+[DEBUG] Maestro.cpp:110               13:07:21 | Maestro panadero con id: 25010. Recibí masa madre para cocinar. Sera utilizada para el pedido: 3
+[DEBUG] MaestroMasaMadre.cpp:86       13:07:21 | Alimentando masa madre. Incrementando alimento en una unidad a: 1
+[DEBUG] Maestro.cpp:71                13:07:21 | Maestro panadero con id: 25009. Adquirido lock para leer la memoria compartida de pedidos vigentes.
+[DEBUG] MaestroPanadero.cpp:15        13:07:21 | Maestro panadero con id: 25010. Comenzando a preparar pan caliente.
+[DEBUG] Maestro.cpp:74                13:07:21 | Maestro panadero con id: 25009. Se leyeron 2 pedidos vigentes. Se escriben 3 pedidos vigentes.
+[DEBUG] Maestro.cpp:107               13:07:21 | Maestro panadero con id: 25009. Adquirido lock para leer el pipe y retirar la masa madre.
+[INFO] Repartidor.cpp:41             13:07:22 | Se entrego el pedido numero: 1. Dicho pedido era de PIZZA
+[DEBUG] Repartidor.cpp:23             13:07:22 | Esperando por un pedido listo para entregar
+[DEBUG] Repartidor.cpp:38             13:07:22 | Debo entregar el pedido de: PAN, cuyo numero es: 2
+[DEBUG] MaestroMasaMadre.cpp:80       13:07:22 | Se leyeron el total de 3 pedidos vigentes.
+[DEBUG] MaestroMasaMadre.cpp:86       13:07:22 | Alimentando masa madre. Incrementando alimento en una unidad a: 2
+[DEBUG] MaestroMasaMadre.cpp:80       13:07:23 | Se leyeron el total de 3 pedidos vigentes.
+[DEBUG] MaestroMasaMadre.cpp:86       13:07:23 | Alimentando masa madre. Incrementando alimento en una unidad a: 3
+[INFO] Repartidor.cpp:41             13:07:24 | Se entrego el pedido numero: 2. Dicho pedido era de PAN
+[DEBUG] Repartidor.cpp:23             13:07:24 | Esperando por un pedido listo para entregar
+[DEBUG] MaestroPanadero.cpp:17        13:07:24 | Maestro panadero con id: 25010. Pan preparado.
+[DEBUG] Maestro.cpp:120               13:07:24 | Maestro panadero con id: 25010. Entregando pedido terminado numero: 3
+[DEBUG] Maestro.cpp:34                13:07:24 | Maestro panadero con id: 25010. Lock adquirido para leer del pipe de comunicacion con los recepcionistas.
+[DEBUG] Repartidor.cpp:38             13:07:24 | Debo entregar el pedido de: PAN, cuyo numero es: 3
+[DEBUG] Maestro.cpp:38                13:07:24 | Maestro panadero con id: 25010. Se recibio un pedido VACIO de PAN. El numero de pedido es: -1
+[DEBUG] Maestro.cpp:59                13:07:24 | Maestro panadero con id: 25010. Se proceso pedido con id -1. Procedo con la orden, mi dia laboral ha terminado. Me voy a mi casa, no sin antes avisar al maestro de la masa madre.
+[DEBUG] MaestroMasaMadre.cpp:80       13:07:24 | Se leyeron el total de 3 pedidos vigentes.
+[DEBUG] MaestroMasaMadre.cpp:59       13:07:24 | Procesando notificacion de cierre de cocinero.
+[DEBUG] Maestro.cpp:71                13:07:24 | Maestro panadero con id: 25010. Adquirido lock para leer la memoria compartida de pedidos vigentes.
+[DEBUG] Maestro.cpp:74                13:07:24 | Maestro panadero con id: 25010. Se leyeron 3 pedidos vigentes. Se escriben 4 pedidos vigentes.
+[DEBUG] Maestro.cpp:88                13:07:24 | Maestro panadero con id: 25010. Cerrando memoria compartida de pedidos vigentes
+[DEBUG] Maestro.cpp:91                13:07:24 | Maestro panadero con id: 25010. Cerrando comunicacion con los recepcionistas.
+[DEBUG] MaestroMasaMadre.cpp:69       13:07:24 | Lock adquirido para disminuir cantidad de pedidos vigentes.
+[DEBUG] MaestroMasaMadre.cpp:72       13:07:24 | Se leyeron 4 pedidos vigentes. Se escriben 3 pedidos vigentes.
+[DEBUG] Maestro.cpp:94                13:07:24 | Maestro panadero con id: 25010. Cerrando comunicacion con el maestro de la masa madre.
+[DEBUG] MaestroMasaMadre.cpp:86       13:07:24 | Alimentando masa madre. Incrementando alimento en una unidad a: 4
+[DEBUG] Maestro.cpp:97                13:07:24 | Maestro panadero con id: 25010. Cerrando recepcion de masa madre.
+[DEBUG] Maestro.cpp:100               13:07:24 | Maestro panadero con id: 25010. Cerrando comunicacion con repartidores.
+[DEBUG] MaestroMasaMadre.cpp:80       13:07:25 | Se leyeron el total de 3 pedidos vigentes.
+[DEBUG] MaestroMasaMadre.cpp:59       13:07:25 | Procesando notificacion de cierre de cocinero.
+[DEBUG] MaestroMasaMadre.cpp:69       13:07:25 | Lock adquirido para disminuir cantidad de pedidos vigentes.
+[DEBUG] MaestroMasaMadre.cpp:72       13:07:25 | Se leyeron 3 pedidos vigentes. Se escriben 2 pedidos vigentes.
+[DEBUG] MaestroMasaMadre.cpp:86       13:07:25 | Alimentando masa madre. Incrementando alimento en una unidad a: 5
+[INFO] Repartidor.cpp:41             13:07:26 | Se entrego el pedido numero: 3. Dicho pedido era de PAN
+[DEBUG] Repartidor.cpp:23             13:07:26 | Esperando por un pedido listo para entregar
+[DEBUG] MaestroMasaMadre.cpp:80       13:07:26 | Se leyeron el total de 2 pedidos vigentes.
+[DEBUG] MaestroMasaMadre.cpp:54       13:07:26 | Procesando notificacion de pedido de masa madre.
+[DEBUG] MaestroMasaMadre.cpp:56       13:07:26 | Se deposita la racion de masa madre en el pipe de comunicacion con los cocineros.
+[DEBUG] MaestroMasaMadre.cpp:69       13:07:26 | Lock adquirido para disminuir cantidad de pedidos vigentes.
+[DEBUG] MaestroMasaMadre.cpp:72       13:07:26 | Se leyeron 2 pedidos vigentes. Se escriben 1 pedidos vigentes.
+[DEBUG] MaestroMasaMadre.cpp:86       13:07:26 | Alimentando masa madre. Incrementando alimento en una unidad a: 3
+[DEBUG] Maestro.cpp:110               13:07:26 | Maestro panadero con id: 25009. Recibí masa madre para cocinar. Sera utilizada para el pedido: 4
+[DEBUG] MaestroPanadero.cpp:15        13:07:26 | Maestro panadero con id: 25009. Comenzando a preparar pan caliente.
+[DEBUG] MaestroMasaMadre.cpp:80       13:07:27 | Se leyeron el total de 1 pedidos vigentes.
+[DEBUG] MaestroMasaMadre.cpp:59       13:07:27 | Procesando notificacion de cierre de cocinero.
+[DEBUG] MaestroMasaMadre.cpp:69       13:07:27 | Lock adquirido para disminuir cantidad de pedidos vigentes.
+[DEBUG] MaestroMasaMadre.cpp:72       13:07:27 | Se leyeron 1 pedidos vigentes. Se escriben 0 pedidos vigentes.
+[DEBUG] MaestroMasaMadre.cpp:86       13:07:27 | Alimentando masa madre. Incrementando alimento en una unidad a: 4
+[DEBUG] MaestroMasaMadre.cpp:80       13:07:28 | Se leyeron el total de 0 pedidos vigentes.
+[DEBUG] MaestroMasaMadre.cpp:86       13:07:28 | Alimentando masa madre. Incrementando alimento en una unidad a: 5
+[DEBUG] MaestroPanadero.cpp:17        13:07:29 | Maestro panadero con id: 25009. Pan preparado.
+[DEBUG] Maestro.cpp:120               13:07:29 | Maestro panadero con id: 25009. Entregando pedido terminado numero: 4
+[DEBUG] Maestro.cpp:34                13:07:29 | Maestro panadero con id: 25009. Lock adquirido para leer del pipe de comunicacion con los recepcionistas.
+[DEBUG] Repartidor.cpp:38             13:07:29 | Debo entregar el pedido de: PAN, cuyo numero es: 4
+[DEBUG] Maestro.cpp:38                13:07:29 | Maestro panadero con id: 25009. Se recibio un pedido VACIO de PAN. El numero de pedido es: -2
+[DEBUG] Maestro.cpp:59                13:07:29 | Maestro panadero con id: 25009. Se proceso pedido con id -2. Procedo con la orden, mi dia laboral ha terminado. Me voy a mi casa, no sin antes avisar al maestro de la masa madre.
+[DEBUG] Maestro.cpp:71                13:07:29 | Maestro panadero con id: 25009. Adquirido lock para leer la memoria compartida de pedidos vigentes.
+[DEBUG] Maestro.cpp:74                13:07:29 | Maestro panadero con id: 25009. Se leyeron 0 pedidos vigentes. Se escriben 1 pedidos vigentes.
+[DEBUG] Maestro.cpp:88                13:07:29 | Maestro panadero con id: 25009. Cerrando memoria compartida de pedidos vigentes
+[DEBUG] MaestroMasaMadre.cpp:80       13:07:29 | Se leyeron el total de 1 pedidos vigentes.
+[DEBUG] Maestro.cpp:91                13:07:29 | Maestro panadero con id: 25009. Cerrando comunicacion con los recepcionistas.
+[DEBUG] MaestroMasaMadre.cpp:59       13:07:29 | Procesando notificacion de cierre de cocinero.
+[DEBUG] Maestro.cpp:94                13:07:29 | Maestro panadero con id: 25009. Cerrando comunicacion con el maestro de la masa madre.
+[DEBUG] MaestroMasaMadre.cpp:62       13:07:29 | Todos los cocineros han notificado que cierran por el dia de hoy. Procedere a hacer lo mismo.
+[DEBUG] Maestro.cpp:97                13:07:29 | Maestro panadero con id: 25009. Cerrando recepcion de masa madre.
+[DEBUG] MaestroMasaMadre.cpp:117      13:07:29 | Avisando a repartidor que el dia laboral ha terminado.
+[DEBUG] Maestro.cpp:100               13:07:29 | Maestro panadero con id: 25009. Cerrando comunicacion con repartidores.
+[DEBUG] MaestroMasaMadre.cpp:69       13:07:29 | Lock adquirido para disminuir cantidad de pedidos vigentes.
+[DEBUG] MaestroMasaMadre.cpp:72       13:07:29 | Se leyeron 1 pedidos vigentes. Se escriben 0 pedidos vigentes.
+[DEBUG] MaestroMasaMadre.cpp:86       13:07:29 | Alimentando masa madre. Incrementando alimento en una unidad a: 6
+[DEBUG] MaestroMasaMadre.cpp:98       13:07:30 | Cerrando comunicacion con el repartidor
+[DEBUG] MaestroMasaMadre.cpp:101      13:07:30 | Cerrando canal de comunicacion de pedidos de masa madre
+[DEBUG] MaestroMasaMadre.cpp:104      13:07:30 | Cerrando canal de comunicacion de entregas de masa madre
+[DEBUG] MaestroMasaMadre.cpp:107      13:07:30 | Cerrando memoria compartida de pedidos vigentes
+[INFO] Repartidor.cpp:41             13:07:31 | Se entrego el pedido numero: 4. Dicho pedido era de PAN
+[DEBUG] Repartidor.cpp:23             13:07:31 | Esperando por un pedido listo para entregar
+[DEBUG] Repartidor.cpp:34             13:07:31 | Ha llegado notificacion de cierre. Procedere a subirme a mi moto e irme a mi casa.
+[DEBUG] Repartidor.cpp:49             13:07:31 | Cerrando comunicacion con maestros.
+[DEBUG] Panaderia.cpp:124             13:07:31 | Cerrando canal de comunicacion con recepcionistas.
+[INFO] main.cpp:56                   13:07:31 | Simulacion terminada.
+[INFO] Logging.cpp:67                13:07:31 | Cerrando archivo de log.

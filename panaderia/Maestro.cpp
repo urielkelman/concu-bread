@@ -8,11 +8,11 @@
 #include "../concurrencia/seniales/EmpleadoSIGINTHandler.h"
 
 Maestro::Maestro(const char* nombreLockComunicacionConRecepcionistas) :
-lockComunicacionConRecepcionistas(nombreLockComunicacionConRecepcionistas),
-lockPedidosVigentes("pedidosvigentes.lock"),
-lockMasaMadre("masamadre.lock"),
-pedidosVigentes(MemoriaCompartida<int>('A')),
-comunicacionConRepartidores("/tmp/fifo-repartidores"){
+        lockComunicacionConRecepcionistas(nombreLockComunicacionConRecepcionistas),
+        lockPedidosVigentes("pedidosvigentes.lock"),
+        lockMasaMadre("masamadre.lock"),
+        pedidosVigentes(MemoriaCompartida<int>('A')),
+        comunicacionConRepartidor("/tmp/fifo-repartidores"){
 
 }
 
@@ -21,7 +21,7 @@ Maestro::~Maestro() {
 }
 
 void Maestro::esperarPorSolicitudes() {
-    this->comunicacionConRepartidores.abrir();
+    this->comunicacionConRepartidor.abrir();
     EmpleadoSIGINTHandler maestroSIGINTHandler(this);
     SignalHandler::getInstance()->registrarHandler(SIGINT, &maestroSIGINTHandler);
 
@@ -65,12 +65,9 @@ void Maestro::procesarPedido(Pedido pedido) {
         codigoDePedido = "P";
     }
 
-    sleep(5);
     this->comunicacionConMaestroMasaMadre.escribir(codigoDePedido.c_str(), sizeof(NotificacionMaestro));
     this->lockPedidosVigentes.tomarLock();
-    LOG_DEBUG(
-
-    string(this->cadenaIdentificadora) + " con id: " + to_string(getpid()) + + ". Adquirido lock para leer "
+    LOG_DEBUG(string(this->cadenaIdentificadora) + " con id: " + to_string(getpid()) + + ". Adquirido lock para leer "
               "la memoria compartida de pedidos vigentes.");
     int totalPedidosVigentes = this->pedidosVigentes.leer();
     LOG_DEBUG(string(this->cadenaIdentificadora) + " con id: " + to_string(getpid()) + + ". Se leyeron " + to_string(totalPedidosVigentes) +
@@ -101,7 +98,7 @@ void Maestro::liberarRecursos() {
     this->recepcionMasaMadre.cerrar();
 
     LOG_DEBUG(string(this->cadenaIdentificadora) + " con id: " + to_string(getpid()) + ". Cerrando comunicacion con repartidores.");
-    this->comunicacionConRepartidores.cerrar();
+    this->comunicacionConRepartidor.cerrar();
 }
 
 MasaMadre Maestro::retirarMasaMadre() {
@@ -121,7 +118,7 @@ void Maestro::entregarPedido(TipoDePedido tipoDePedido) {
     pedidoTerminado.tipoDePedido = tipoDePedido;
     LOG_DEBUG(string(this->cadenaIdentificadora) + " con id: " + to_string(getpid())  + ". Entregando "
               "pedido terminado numero: " + to_string(this->numeroDePedidoActual));
-    this->comunicacionConRepartidores.escribir(static_cast<void*>(&pedidoTerminado), sizeof(CajaConPedido));
+    this->comunicacionConRepartidor.escribir(static_cast<void*>(&pedidoTerminado), sizeof(CajaConPedido));
 }
 
 
