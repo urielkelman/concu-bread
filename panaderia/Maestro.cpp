@@ -105,7 +105,7 @@ MasaMadre Maestro::retirarMasaMadre() {
     MasaMadre masaMadre;
     this->lockMasaMadre.tomarLock();
     LOG_DEBUG(string(this->cadenaIdentificadora) + " con id: " + to_string(getpid()) + ". Adquirido lock para leer el pipe y retirar la masa madre."    );
-    this->recepcionMasaMadre.leer(&masaMadre, sizeof(MasaMadre));
+    this->recepcionMasaMadre.leer(&masaMadre, sizeof(RacionMasaMadre));
     LOG_DEBUG(string(this->cadenaIdentificadora) + " con id: " + to_string(getpid())  + ". Recibí masa madre para cocinar. "
               "Sera utilizada para el pedido: " + to_string(this->numeroDePedidoActual));
     this->lockMasaMadre.liberarLock();

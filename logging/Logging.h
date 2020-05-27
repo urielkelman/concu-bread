@@ -27,15 +27,19 @@ public:
     static void Inicializar(NivelDeLogging nivelDeLogging);
 
     /** Escribe el mensaje que recibe como  el archivo acorde al nivel de log especificado. Soporta escrituras
-     * concurrentes, ya que antes de escribir el mensaje adquiere un lock sobre el archivo a escribir */
+     * concurrentes, ya que antes de escribir el mensaje adquiere un lock sobre el archivo a escribir. Ademas del
+     * mensaje, se incluyen el nombre del archivo que invoco la macro para loggear y la hora en la que se hizo.*/
     static void Loggear(NivelDeLogging nivelDeLogging, string mensaje, string archivo, long linea);
 
+    /** Finaliza el log. Indica el fin de la simulacion.*/
     static void Finalizar();
 
 private:
     static NivelDeLogging nivelDeLogging;
     static vector<string> nivelLogStrings;
+    /** Obtiene un string con el tiempo que luego sera agregado cuando se logee una linea.*/
     static string obtenerTiempo();
+    /** Obtiene el nombre del archivo desde el cual se invoco la macro para loggear. */
     static string obtenerNombreArchivo(string);
     static int numeroMagicoDePadding;
     static LockFile lock;

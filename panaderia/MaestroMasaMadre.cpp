@@ -54,7 +54,7 @@ void MaestroMasaMadre::procesarNotificacion(char notificacion) {
         LOG_DEBUG("Procesando notificacion de pedido de masa madre.");
         this->masaMadre.cantidadDeAlimento -= this->MASA_MADRE_POR_RACION;
         LOG_DEBUG("Se deposita la racion de masa madre en el pipe de comunicacion con los cocineros.");
-        this->comunicacionEntregaDeMasaMadre.escribir("M", sizeof(char));
+        this->comunicacionEntregaDeMasaMadre.escribir("M", sizeof(RacionMasaMadre));
     } else {
         LOG_DEBUG("Procesando notificacion de cierre de cocinero.");
         this->cantidadDeCocineros -= 1;

@@ -20,12 +20,18 @@ struct CajaConPedido {
     TipoDePedido tipoDePedido;
 };
 
+/**
+ * Clase abstracta que implementa casi todos los metodos que identifican a un maestro cocinero, ya sea
+ * panadero o pizzero.
+ * */
 class Maestro : public Empleado {
 public:
     Maestro(const char* nombreLockComunicacionConRecepcionistas);
 
     ~Maestro();
 
+    /**
+     * Los tres metodos son overrides de los metodos de la clase Empleado.*/
     void configurarPipes(Pipe primerPipe, Pipe segundoPipe, Pipe tercerPipe) override;
     void esperarPorSolicitudes() override;
     void liberarRecursos() override;
@@ -40,9 +46,24 @@ private:
     FifoEscritura comunicacionConRepartidor;
     int numeroDePedidoActual = 0;
 
+    /**
+     * Metodo que contiene la logica de procesamiento de pedidos, contemplando los casos en el que el
+     * maestro debe procesar un pedido o le llega la orden para que se cierre.*/
     void procesarPedido(Pedido pedido);
+
+    /**
+     * Una vez que el maestro solicita masa madre, se invoca al siguiente metodo contiene la logica para
+     * escuchar por el pipe de recepcion de raciones de masa madre.*/
     MasaMadre retirarMasaMadre();
+
+    /**
+     * Metodo abstracto que deben implementar los maestros panaderos y pizzeros por separado. Conceptualmente,
+     * indica que cada uno de los maestros cocineros sabe como cocinar su especialidad. */
     virtual TipoDePedido cocinar(MasaMadre masaMadre) = 0;
+
+    /**
+     * Luego de cocinar el pedido, se invoca al siguiente metodo, el cual contiene la logica necesaria para
+     * escribir en el canal de comunicacion con el repartidor para que este entregue el pedido. */
     void entregarPedido(TipoDePedido tipoDePedido);
 };
 

@@ -7,6 +7,8 @@
 
 #include "Maestro.h"
 
+/**
+ * Clase que representa al maestro panadero..*/
 class MaestroPanadero : public Maestro {
 public:
     MaestroPanadero();
@@ -14,6 +16,8 @@ public:
 private:
     int TIEMPO_COCCION_PAN = 30000;
 
+    /**
+     * Override del metodo de la clase Maestro. Siempre devuelve PAN como TipoDePedido. */
     TipoDePedido cocinar(MasaMadre masaMadre) override;
 };
 

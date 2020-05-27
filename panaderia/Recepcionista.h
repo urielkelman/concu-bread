@@ -10,10 +10,15 @@
 #include "../concurrencia/pipes/Pipe.h"
 #include "Panaderia.h"
 
+/**
+ * Clase que representa al recepcionista, cuya funcion principal es recibir pedidos y entregarselos a los maestros. */
 class Recepcionista : public Empleado {
 public:
     Recepcionista();
     ~Recepcionista();
+
+    /**
+     * Los tres metodos publicos son overrides de la clase Empleado. */
     void configurarPipes(Pipe primerPipe, Pipe segundoPipe, Pipe tercerPipe) override;
     void esperarPorSolicitudes() override;
     void liberarRecursos() override;
@@ -23,6 +28,10 @@ private:
     Pipe comunicacionConMaestrosPanaderos;
     Pipe comunicacionConMaestrosPizzeros;
     LockFile lockComunicacionConPanaderia;
+
+    /**
+     * Contiene la logica para enrutar el pedido segun su tipo y enviarlo al pipe de maestro que corresponda.
+     */
     void entregarPedidoAMaestro(Pedido pedido);
 };
 
