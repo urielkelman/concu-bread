@@ -7,6 +7,8 @@
 #include "../concurrencia/seniales/SignalHandler.h"
 #include "../concurrencia/seniales/EmpleadoSIGINTHandler.h"
 
+int Maestro::BUFFSIZE = 100;
+
 Maestro::Maestro(const char* nombreLockComunicacionConRecepcionistas) :
         lockComunicacionConRecepcionistas(nombreLockComunicacionConRecepcionistas),
         lockPedidosVigentes("locks/pedidosvigentes.lock"),
@@ -28,9 +30,11 @@ void Maestro::esperarPorSolicitudes() {
     Pedido pedido;
     while(this->continuarAtendiendoPedidos){
         this->lockComunicacionConRecepcionistas.tomarLock();
+        char buffer[BUFFSIZE];
         LOG_DEBUG(string(this->cadenaIdentificadora) + " con id: " + to_string(getpid()) + ". Lock adquirido para leer del pipe de "
                   "comunicacion con los recepcionistas.");
-        this->comunicacionConRecepcionistas.leer(static_cast<void*>(&pedido), sizeof(Pedido));
+        this->comunicacionConRecepcionistas.leer(static_cast<void*>(buffer), BUFFSIZE);
+        pedido = SerializadorDePedidos::deserializarPedido(buffer);
         LOG_DEBUG(string(this->cadenaIdentificadora) + " con id: " + to_string(getpid()) + ". Se recibio un pedido " +
                   Panaderia::CONTENIDO_A_CADENA[pedido.contenidoDePedido] + " de " + Panaderia::TIPO_A_CADENA[pedido.tipoDePedido] +
                   ". El numero de pedido es: " + to_string(pedido.numeroDePedido));

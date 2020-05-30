@@ -46,6 +46,8 @@ private:
     FifoEscritura comunicacionConRepartidor;
     int numeroDePedidoActual = 0;
 
+    static int BUFFSIZE;
+
     /**
      * Metodo que contiene la logica de procesamiento de pedidos, contemplando los casos en el que el
      * maestro debe procesar un pedido o le llega la orden para que se cierre.*/

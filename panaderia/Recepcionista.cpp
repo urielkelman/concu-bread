@@ -55,14 +55,16 @@ void Recepcionista::configurarPipes(Pipe primerPipe, Pipe segundoPipe, Pipe terc
 }
 
 void Recepcionista::entregarPedidoAMaestro(Pedido pedido) {
-    if (pedido.tipoDePedido == PAN) {
+    if(pedido.tipoDePedido == PAN) {
         LOG_DEBUG("Recepcionista con id: " + to_string(getpid()) + ". Entregando pedido de pan con "
-                                                                   "id: " + to_string(pedido.numeroDePedido));
-        this->comunicacionConMaestrosPanaderos.escribir(static_cast<const void *>(&pedido), sizeof(Pedido));
+                  "id: " + to_string(pedido.numeroDePedido));
+        const char* pedidoSerializado = SerializadorDePedidos::serializarPedido(pedido);
+        this->comunicacionConMaestrosPanaderos.escribir(static_cast<const void*>(pedidoSerializado), BUFFSIZE);
     } else {
         LOG_DEBUG("Recepcionista con id: " + to_string(getpid()) + ". Entregando pedido de pizza con "
-                                                                   "id: " + to_string(pedido.numeroDePedido));
-        this->comunicacionConMaestrosPizzeros.escribir(static_cast<const void *>(&pedido), sizeof(Pedido));
+                 "id: " + to_string(pedido.numeroDePedido));
+        const char* pedidoSerializado = SerializadorDePedidos::serializarPedido(pedido);
+        this->comunicacionConMaestrosPizzeros.escribir(static_cast<const void*>(pedidoSerializado), BUFFSIZE);
     }
 }
 
