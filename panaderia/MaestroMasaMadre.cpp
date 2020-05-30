@@ -34,13 +34,15 @@ MaestroMasaMadre::~MaestroMasaMadre() {
 void MaestroMasaMadre::esperarPorNotificaciones() {
     this->comunicacionRepartidor.abrir();
     while(this->continuarProcesandoPedidos){
-        if(this->hayPedidosEnEspera() && this->hayRacionDeMasaDisponible()){
+        if(this->hayPedidosEnEspera()){
+            if(this->hayRacionDeMasaDisponible()) {
             char notificacion[1];
             this->comunicacionPedidosDeMasaMadre.leer(&notificacion, sizeof(NotificacionMaestro));
             this->procesarNotificacion(*notificacion);
+            }
+            this->alimentarMasaMadre();
         }
 
-        this->alimentarMasaMadre();
     }
 
     this->liberarRecursosDeComunicacion();

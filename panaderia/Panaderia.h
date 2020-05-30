@@ -8,17 +8,8 @@
 #include "../concurrencia/seniales/SignalHandler.h"
 #include "../concurrencia/pipes/Pipe.h"
 #include "../config/Config.h"
+#include "../utilidades/SerializadorDePedidos.h"
 #include "Empleado.h"
-
-enum ContenidoDePedido {LLENO = 0, VACIO = 1};
-enum TipoDePedido {PAN = 0, PIZZA = 1, NOTIFICACION_DE_CIERRE = 2};
-
-struct Pedido {
-    TipoDePedido tipoDePedido;
-    ContenidoDePedido contenidoDePedido;
-    int numeroDePedido;
-};
-
 
 /**
  * Clase que reprensenta la panaderia a un nivel macro. Sus metodos se ejecutan en el hilo principal del programa. */
@@ -48,6 +39,8 @@ private:
     Config config;
     Pipe canalConRecepcionistas;
     vector<pid_t> *empleados;
+
+    static int BUFFSIZE;
 
     /**
      * Genera los procesos asociados al tipo de empleado que utiliza por para parametros en forma polimorfica para las

@@ -21,13 +21,13 @@ void Pipe::setearModo (const int modo) {
     }
 }
 
-ssize_t Pipe::escribir (const void* dato, int datoSize) {
+ssize_t Pipe::escribir (const void* dato, int longitudDato) {
     if (this->lectura) {
         close(this->descriptores[0]);
         this->lectura = false;
     }
 
-    return write(this->descriptores[1], dato, datoSize);
+    return write(this->descriptores[1], dato, longitudDato);
 }
 
 ssize_t Pipe :: leer ( void* buffer,const int buffSize ) {

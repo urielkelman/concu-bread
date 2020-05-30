@@ -6,9 +6,9 @@
 #define CONCU_BREAD_RECEPCIONISTA_H
 
 
+#include "Panaderia.h"
 #include "Empleado.h"
 #include "../concurrencia/pipes/Pipe.h"
-#include "Panaderia.h"
 
 /**
  * Clase que representa al recepcionista, cuya funcion principal es recibir pedidos y entregarselos a los maestros. */
@@ -29,6 +29,7 @@ private:
     Pipe comunicacionConMaestrosPizzeros;
     LockFile lockComunicacionConPanaderia;
 
+    static int BUFFSIZE;
     /**
      * Contiene la logica para enrutar el pedido segun su tipo y enviarlo al pipe de maestro que corresponda.
      */

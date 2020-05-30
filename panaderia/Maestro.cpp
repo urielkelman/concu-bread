@@ -28,9 +28,7 @@ void Maestro::esperarPorSolicitudes() {
     Pedido pedido;
     while(this->continuarAtendiendoPedidos){
         this->lockComunicacionConRecepcionistas.tomarLock();
-        LOG_DEBUG(
-
-        string(this->cadenaIdentificadora) + " con id: " + to_string(getpid()) + ". Lock adquirido para leer del pipe de "
+        LOG_DEBUG(string(this->cadenaIdentificadora) + " con id: " + to_string(getpid()) + ". Lock adquirido para leer del pipe de "
                   "comunicacion con los recepcionistas.");
         this->comunicacionConRecepcionistas.leer(static_cast<void*>(&pedido), sizeof(Pedido));
         LOG_DEBUG(string(this->cadenaIdentificadora) + " con id: " + to_string(getpid()) + ". Se recibio un pedido " +
@@ -116,9 +114,10 @@ void Maestro::entregarPedido(TipoDePedido tipoDePedido) {
     CajaConPedido pedidoTerminado;
     pedidoTerminado.numeroDePedido = this->numeroDePedidoActual;
     pedidoTerminado.tipoDePedido = tipoDePedido;
-    LOG_DEBUG(string(this->cadenaIdentificadora) + " con id: " + to_string(getpid())  + ". Entregando "
-              "pedido terminado numero: " + to_string(this->numeroDePedidoActual));
-    this->comunicacionConRepartidor.escribir(static_cast<void*>(&pedidoTerminado), sizeof(CajaConPedido));
+    LOG_DEBUG(string(this->cadenaIdentificadora) + " con id: " + to_string(getpid()) + ". Entregando "
+                                                                                       "pedido terminado numero: " +
+              to_string(this->numeroDePedidoActual));
+    this->comunicacionConRepartidor.escribir(static_cast<void *>(&pedidoTerminado), sizeof(CajaConPedido));
 }
 
 

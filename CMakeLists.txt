@@ -50,4 +50,4 @@ add_executable(concu_bread
         panaderia/Recepcionista.h
         panaderia/Repartidor.cpp
         panaderia/Repartidor.h
-        main.cpp concurrencia/seniales/RepartidorSIGINTHandler.h)
+        main.cpp concurrencia/seniales/RepartidorSIGINTHandler.h utilidades/SerializadorDePedidos.cpp utilidades/SerializadorDePedidos.h)

@@ -4,10 +4,13 @@
 
 #include "Recepcionista.h"
 #include <unistd.h>
+#include <stdio.h>
 
 #include "Panaderia.h"
 #include "../concurrencia/seniales/EmpleadoSIGINTHandler.h"
 #include "../concurrencia/seniales/SignalHandler.h"
+
+int Recepcionista::BUFFSIZE = 100;
 
 Recepcionista::Recepcionista() : lockComunicacionConPanaderia("locks/recepcionista.lock"){
     this->cadenaIdentificadora = "Recepcionista";
@@ -20,10 +23,12 @@ void Recepcionista::esperarPorSolicitudes() {
 
     Pedido pedido;
     while(this->continuarAtendiendoPedidos){
+        char buffer[BUFFSIZE];
         this->lockComunicacionConPanaderia.tomarLock();
         LOG_DEBUG("Recepcionista con id: " + to_string(getpid()) + ". Lock adquirido para leer del pipe de "
                                                                    "comunicacion con la panaderia.");
-        this->comunicacionConPanaderia.leer(static_cast<void*>(&pedido), sizeof(Pedido));
+        this->comunicacionConPanaderia.leer(static_cast<void*>(buffer), BUFFSIZE);
+        pedido = SerializadorDePedidos::deserializarPedido(buffer);
         LOG_DEBUG("Recepcionista con id: " + to_string(getpid()) + ". Llego un pedido "
                   "de " + Panaderia::TIPO_A_CADENA[pedido.tipoDePedido] + ". Numero de pedido: " + to_string(pedido.numeroDePedido));
         this->lockComunicacionConPanaderia.liberarLock();
