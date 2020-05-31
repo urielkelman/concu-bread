@@ -22,7 +22,9 @@ void Repartidor::escucharPorPedidosTerminados() {
     while(this->continuarRepartiendo){
         LOG_DEBUG("Esperando por un pedido listo para entregar");
         CajaConPedido pedidoTerminado;
-        this->comunicacionConMaestros.leer(static_cast<void*>(&pedidoTerminado), sizeof(CajaConPedido));
+        char buffer[BUFFSIZE];
+        this->comunicacionConMaestros.leer(static_cast<void*>(buffer), BUFFSIZE);
+        pedidoTerminado = SerializadorDePedidos::deserializarPedidoTerminado(buffer);
         this->entregarPedido(pedidoTerminado);
     }
     this->liberarRecursos();

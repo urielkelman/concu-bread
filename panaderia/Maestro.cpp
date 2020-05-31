@@ -7,7 +7,8 @@
 #include "../concurrencia/seniales/SignalHandler.h"
 #include "../concurrencia/seniales/EmpleadoSIGINTHandler.h"
 
-int Maestro::BUFFSIZE = 100;
+int Maestro::BUFFSIZE_PEDIDO = 10;
+int Maestro::BUFFSIZE_PEDIDO_TERMINADO = 9;
 
 Maestro::Maestro(const char* nombreLockComunicacionConRecepcionistas) :
         lockComunicacionConRecepcionistas(nombreLockComunicacionConRecepcionistas),
@@ -15,7 +16,6 @@ Maestro::Maestro(const char* nombreLockComunicacionConRecepcionistas) :
         lockMasaMadre("locks/masamadre.lock"),
         pedidosVigentes(MemoriaCompartida<int>('A')),
         comunicacionConRepartidor("/tmp/fifo-repartidores"){
-
 }
 
 Maestro::~Maestro() {
@@ -30,10 +30,10 @@ void Maestro::esperarPorSolicitudes() {
     Pedido pedido;
     while(this->continuarAtendiendoPedidos){
         this->lockComunicacionConRecepcionistas.tomarLock();
-        char buffer[BUFFSIZE];
+        char buffer[BUFFSIZE_PEDIDO];
         LOG_DEBUG(string(this->cadenaIdentificadora) + " con id: " + to_string(getpid()) + ". Lock adquirido para leer del pipe de "
                   "comunicacion con los recepcionistas.");
-        this->comunicacionConRecepcionistas.leer(static_cast<void*>(buffer), BUFFSIZE);
+        this->comunicacionConRecepcionistas.leer(static_cast<void*>(buffer), BUFFSIZE_PEDIDO);
         pedido = SerializadorDePedidos::deserializarPedido(buffer);
         LOG_DEBUG(string(this->cadenaIdentificadora) + " con id: " + to_string(getpid()) + ". Se recibio un pedido " +
                   Panaderia::CONTENIDO_A_CADENA[pedido.contenidoDePedido] + " de " + Panaderia::TIPO_A_CADENA[pedido.tipoDePedido] +
@@ -121,7 +121,8 @@ void Maestro::entregarPedido(TipoDePedido tipoDePedido) {
     LOG_DEBUG(string(this->cadenaIdentificadora) + " con id: " + to_string(getpid()) + ". Entregando "
                                                                                        "pedido terminado numero: " +
               to_string(this->numeroDePedidoActual));
-    this->comunicacionConRepartidor.escribir(static_cast<void *>(&pedidoTerminado), sizeof(CajaConPedido));
+    string pedidoTerminadoSerializado = SerializadorDePedidos::serializarPedidoTerminado(pedidoTerminado);
+    this->comunicacionConRepartidor.escribir(static_cast<const void*>(pedidoTerminadoSerializado.c_str()), BUFFSIZE_PEDIDO_TERMINADO);
 }
 
 

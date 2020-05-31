@@ -40,6 +40,7 @@ private:
     bool continuarProcesandoPedidos = true;
     MasaMadre masaMadre;
     int MASA_MADRE_POR_RACION = 3;
+    int BUFFSIZE = 9;
 
     /**
      * Funcion que contiene la logica necesaria para escuchar por pedidos y no bloquearse en caso de no

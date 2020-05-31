@@ -4,13 +4,11 @@
 
 #include "Recepcionista.h"
 #include <unistd.h>
-#include <stdio.h>
 
 #include "Panaderia.h"
 #include "../concurrencia/seniales/EmpleadoSIGINTHandler.h"
-#include "../concurrencia/seniales/SignalHandler.h"
 
-int Recepcionista::BUFFSIZE = 100;
+int Recepcionista::BUFFSIZE_PEDIDO = 10;
 
 Recepcionista::Recepcionista() : lockComunicacionConPanaderia("locks/recepcionista.lock"){
     this->cadenaIdentificadora = "Recepcionista";
@@ -23,11 +21,11 @@ void Recepcionista::esperarPorSolicitudes() {
 
     Pedido pedido;
     while(this->continuarAtendiendoPedidos){
-        char buffer[BUFFSIZE];
+        char buffer[BUFFSIZE_PEDIDO];
         this->lockComunicacionConPanaderia.tomarLock();
         LOG_DEBUG("Recepcionista con id: " + to_string(getpid()) + ". Lock adquirido para leer del pipe de "
                                                                    "comunicacion con la panaderia.");
-        this->comunicacionConPanaderia.leer(static_cast<void*>(buffer), BUFFSIZE);
+        this->comunicacionConPanaderia.leer(static_cast<void*>(buffer), BUFFSIZE_PEDIDO);
         pedido = SerializadorDePedidos::deserializarPedido(buffer);
         LOG_DEBUG("Recepcionista con id: " + to_string(getpid()) + ". Llego un pedido "
                   "de " + Panaderia::TIPO_A_CADENA[pedido.tipoDePedido] + ". Numero de pedido: " + to_string(pedido.numeroDePedido));
@@ -58,13 +56,15 @@ void Recepcionista::entregarPedidoAMaestro(Pedido pedido) {
     if(pedido.tipoDePedido == PAN) {
         LOG_DEBUG("Recepcionista con id: " + to_string(getpid()) + ". Entregando pedido de pan con "
                   "id: " + to_string(pedido.numeroDePedido));
-        const char* pedidoSerializado = SerializadorDePedidos::serializarPedido(pedido);
-        this->comunicacionConMaestrosPanaderos.escribir(static_cast<const void*>(pedidoSerializado), BUFFSIZE);
+        string pedidoSerializado = SerializadorDePedidos::serializarPedido(pedido);
+        printf("Recepcionista escribe: %s\n", pedidoSerializado.c_str());
+        this->comunicacionConMaestrosPanaderos.escribir(static_cast<const void*>(pedidoSerializado.c_str()), BUFFSIZE_PEDIDO);
     } else {
         LOG_DEBUG("Recepcionista con id: " + to_string(getpid()) + ". Entregando pedido de pizza con "
                  "id: " + to_string(pedido.numeroDePedido));
-        const char* pedidoSerializado = SerializadorDePedidos::serializarPedido(pedido);
-        this->comunicacionConMaestrosPizzeros.escribir(static_cast<const void*>(pedidoSerializado), BUFFSIZE);
+        string pedidoSerializado = SerializadorDePedidos::serializarPedido(pedido);
+        printf("Recepcionista escribe: %s\n", pedidoSerializado.c_str());
+        this->comunicacionConMaestrosPizzeros.escribir(static_cast<const void*>(pedidoSerializado.c_str()), BUFFSIZE_PEDIDO);
     }
 }
 

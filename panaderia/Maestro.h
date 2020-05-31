@@ -15,11 +15,6 @@
 
 typedef char NotificacionMaestro;
 
-struct CajaConPedido {
-    int numeroDePedido;
-    TipoDePedido tipoDePedido;
-};
-
 /**
  * Clase abstracta que implementa casi todos los metodos que identifican a un maestro cocinero, ya sea
  * panadero o pizzero.
@@ -46,7 +41,8 @@ private:
     FifoEscritura comunicacionConRepartidor;
     int numeroDePedidoActual = 0;
 
-    static int BUFFSIZE;
+    static int BUFFSIZE_PEDIDO;
+    static int BUFFSIZE_PEDIDO_TERMINADO;
 
     /**
      * Metodo que contiene la logica de procesamiento de pedidos, contemplando los casos en el que el

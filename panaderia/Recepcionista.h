@@ -29,7 +29,7 @@ private:
     Pipe comunicacionConMaestrosPizzeros;
     LockFile lockComunicacionConPanaderia;
 
-    static int BUFFSIZE;
+    static int BUFFSIZE_PEDIDO;
     /**
      * Contiene la logica para enrutar el pedido segun su tipo y enviarlo al pipe de maestro que corresponda.
      */

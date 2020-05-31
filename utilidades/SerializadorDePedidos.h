@@ -18,11 +18,23 @@ struct Pedido {
     int numeroDePedido;
 };
 
+struct CajaConPedido {
+    int numeroDePedido;
+    TipoDePedido tipoDePedido;
+};
+
 class SerializadorDePedidos {
 
 public:
-    static const char* serializarPedido(Pedido pedido);
+    /**
+     * Metodos para serializar y deserializar pedidos en curso. */
+    static string serializarPedido(Pedido pedido);
     static Pedido deserializarPedido(const char* cadenaPedido);
+
+    /**
+     * Metodos para serializar y deserializar pedidos terminados en cajas. */
+    static string serializarPedidoTerminado(CajaConPedido cajaConPedido);
+    static CajaConPedido deserializarPedidoTerminado(const char* cadenaPedidoTerminado);
 
 private:
     /**
@@ -31,6 +43,7 @@ private:
      * mapean.*/
     static vector<TipoDePedido> ENTERO_A_TIPO;
     static vector<ContenidoDePedido> ENTERO_A_CONTENIDO;
+    static int charsNumeroDePedido;
 };
 
 

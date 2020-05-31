@@ -40,7 +40,7 @@ private:
     Pipe canalConRecepcionistas;
     vector<pid_t> *empleados;
 
-    static int BUFFSIZE;
+    static int BUFFSIZE_PEDIDO;
 
     /**
      * Genera los procesos asociados al tipo de empleado que utiliza por para parametros en forma polimorfica para las

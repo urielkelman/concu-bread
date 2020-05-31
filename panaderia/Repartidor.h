@@ -24,6 +24,7 @@ private:
     FifoLectura comunicacionConMaestros;
     bool continuarRepartiendo = true;
     int TIEMPO_EN_ENTREGA = 20000;
+    int BUFFSIZE = 9;
 
     /**
      * Contiene la logica necesaria para suscribirse al Fifo por el cual le llegan pedidos que debe entregar.*/

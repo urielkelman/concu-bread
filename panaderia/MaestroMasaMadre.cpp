@@ -112,9 +112,10 @@ void MaestroMasaMadre::liberarRecursosDeComunicacion() {
 void MaestroMasaMadre::avisarCierreARepartidor() {
     CajaConPedido pedidoTerminado;
     pedidoTerminado.tipoDePedido = NOTIFICACION_DE_CIERRE;
-    pedidoTerminado.numeroDePedido = 0;
+    pedidoTerminado.numeroDePedido = -1;
     LOG_DEBUG("Avisando a repartidor que el dia laboral ha terminado.");
-    this->comunicacionRepartidor.escribir(static_cast<void*>(&pedidoTerminado), sizeof(CajaConPedido));
+    string pedidoTerminadoSerializado = SerializadorDePedidos::serializarPedidoTerminado(pedidoTerminado);
+    this->comunicacionRepartidor.escribir(static_cast<const void*>(pedidoTerminadoSerializado.c_str()), BUFFSIZE);
 }
 
 

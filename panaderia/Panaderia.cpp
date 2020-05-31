@@ -20,7 +20,7 @@
 vector<string> Panaderia::TIPO_A_CADENA = {"PAN", "PIZZA", "NOTIFICACION_DE_CIERRE"};
 vector<string> Panaderia::CONTENIDO_A_CADENA = {"LLENO", "VACIO"};
 
-int Panaderia::BUFFSIZE = 100;
+int Panaderia::BUFFSIZE_PEDIDO = 10;
 
 Panaderia::Panaderia(Config config) {
     LOG_DEBUG("Inicializando panaderia. Mi id de proceso es: " + to_string(getpid()));
@@ -73,8 +73,8 @@ void Panaderia::enviarPedidosVacios(TipoDePedido tipoDePedido, int cantidadDePed
         pedido.contenidoDePedido = VACIO;
         pedido.numeroDePedido = -i;
         LOG_DEBUG("Enviando notificacion " + to_string(i) + " de finalizacion de pedidos de " + TIPO_A_CADENA[tipoDePedido] + " a recepcionistas.");
-        const char* pedidoSerializado = SerializadorDePedidos::serializarPedido(pedido);
-        this->canalConRecepcionistas.escribir(static_cast<const void*>(pedidoSerializado), BUFFSIZE);
+        string pedidoSerializado = SerializadorDePedidos::serializarPedido(pedido);
+        this->canalConRecepcionistas.escribir(static_cast<const void*>(pedidoSerializado.c_str()), BUFFSIZE_PEDIDO);
     }
 }
 
@@ -89,8 +89,8 @@ void Panaderia::notificarFinalizacion() {
         pedido.tipoDePedido = NOTIFICACION_DE_CIERRE;
         pedido.numeroDePedido = -i;
         LOG_DEBUG("Enviando notificacion " + to_string(i) + " de cierre de panaderia a recepcionistas.");
-        const char* pedidoSerializado = SerializadorDePedidos::serializarPedido(pedido);
-        this->canalConRecepcionistas.escribir(static_cast<const void*>(pedidoSerializado), BUFFSIZE);
+        string pedidoSerializado = SerializadorDePedidos::serializarPedido(pedido);
+        this->canalConRecepcionistas.escribir(static_cast<const void*>(pedidoSerializado.c_str()), BUFFSIZE_PEDIDO);
     }
     int status;
     bool seEvacuoPanaderia = false;
@@ -114,8 +114,8 @@ void Panaderia::comenzarSimulacion() {
         pedido.numeroDePedido = i;
         pedido.contenidoDePedido = LLENO;
         LOG_INFO("Depositando pedido con id: " + to_string(i) + ". El pedido es de: " + TIPO_A_CADENA[tipoDePedido]);
-        const char* pedidoSerializado = SerializadorDePedidos::serializarPedido(pedido);
-        this->canalConRecepcionistas.escribir(static_cast<const void*>(pedidoSerializado), BUFFSIZE);
+        string pedidoSerializado = SerializadorDePedidos::serializarPedido(pedido);
+        this->canalConRecepcionistas.escribir(static_cast<const void*>(pedidoSerializado.c_str()), BUFFSIZE_PEDIDO);
     }
 
     this->notificarFinalizacion();
